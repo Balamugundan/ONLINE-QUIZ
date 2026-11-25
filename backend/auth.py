@@ -75,15 +75,54 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated
 
-def authenticate_admin(username, password):
-    """Authenticates admin credentials from DB."""
+# In-memory sliding window for login rate limiting / brute-force protection
+FAILED_LOGIN_ATTEMPTS = {}
+MAX_FAILED_ATTEMPTS = 5
+LOCKOUT_DURATION_SECONDS = 900  # 15 minutes
+
+def is_ip_rate_limited(ip):
+    now = time.time()
+    record = FAILED_LOGIN_ATTEMPTS.get(ip)
+    if not record:
+        return False, 0
+    attempts, first_time = record
+    if now - first_time > LOCKOUT_DURATION_SECONDS:
+        del FAILED_LOGIN_ATTEMPTS[ip]
+        return False, 0
+    if attempts >= MAX_FAILED_ATTEMPTS:
+        remaining = int(LOCKOUT_DURATION_SECONDS - (now - first_time))
+        return True, max(1, remaining)
+    return False, 0
+
+def record_failed_login(ip):
+    now = time.time()
+    if ip not in FAILED_LOGIN_ATTEMPTS:
+        FAILED_LOGIN_ATTEMPTS[ip] = (1, now)
+    else:
+        attempts, first_time = FAILED_LOGIN_ATTEMPTS[ip]
+        if now - first_time > LOCKOUT_DURATION_SECONDS:
+            FAILED_LOGIN_ATTEMPTS[ip] = (1, now)
+        else:
+            FAILED_LOGIN_ATTEMPTS[ip] = (attempts + 1, first_time)
+
+def reset_failed_login(ip):
+    if ip in FAILED_LOGIN_ATTEMPTS:
+        del FAILED_LOGIN_ATTEMPTS[ip]
+
+def authenticate_admin(username, password, client_ip="default"):
+    """Authenticates admin credentials from DB with rate limiting."""
+    is_limited, wait_secs = is_ip_rate_limited(client_ip)
+    if is_limited:
+        return {"error": f"Too many failed login attempts. Account temporarily locked. Try again in {wait_secs} seconds."}
+
     admin = admins_col.find_one({"username": username.strip()})
-    if not admin:
+    if not admin or not check_password_hash(admin.get("password_hash", ""), password):
+        record_failed_login(client_ip)
         return None
-    if check_password_hash(admin.get("password_hash", ""), password):
-        token = generate_token({"role": "admin", "username": admin["username"]})
-        return {
-            "username": admin["username"],
-            "token": token
-        }
-    return None
+
+    reset_failed_login(client_ip)
+    token = generate_token({"role": "admin", "username": admin["username"]})
+    return {
+        "username": admin["username"],
+        "token": token
+    }

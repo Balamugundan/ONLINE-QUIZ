@@ -4,7 +4,9 @@
 
 let allQuestions = [];
 let allResults = [];
+let allMonitoringStudents = [];
 let currentSettings = null;
+let liveMonitoringPollingInterval = null;
 
 // ==========================================
 // AUTHENTICATION & INITIALIZATION
@@ -27,6 +29,7 @@ async function checkAdminAuth() {
         dashboardView.style.display = 'none';
         logoutBtn.style.display = 'none';
         adminBadge.style.display = 'none';
+        clearInterval(liveMonitoringPollingInterval);
         return;
     }
 
@@ -41,6 +44,7 @@ async function checkAdminAuth() {
 
         // Load all dashboard content
         await loadAllDashboardData();
+        startLiveMonitoringPolling();
     } catch (err) {
         localStorage.removeItem('admin_token');
         localStorage.removeItem('admin_user');
@@ -48,15 +52,32 @@ async function checkAdminAuth() {
         dashboardView.style.display = 'none';
         logoutBtn.style.display = 'none';
         adminBadge.style.display = 'none';
+        clearInterval(liveMonitoringPollingInterval);
+    }
+}
+
+function togglePasswordVisibility(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🔒';
+        btn.title = 'Hide password';
+    } else {
+        input.type = 'password';
+        btn.textContent = '👁️';
+        btn.title = 'Show password';
     }
 }
 
 async function handleAdminLogin(e) {
     e.preventDefault();
     const btn = document.getElementById('login-submit-btn');
+    const errAlert = document.getElementById('login-error-alert');
     const usernameInput = document.getElementById('login-username').value.trim();
     const passwordInput = document.getElementById('login-password').value;
 
+    if (errAlert) errAlert.style.display = 'none';
     btn.disabled = true;
     btn.innerHTML = '<span>Verifying...</span>';
 
@@ -72,7 +93,12 @@ async function handleAdminLogin(e) {
         showToast('Login successful! Welcome back.', 'success');
         await checkAdminAuth();
     } catch (err) {
-        showToast(err.message || 'Invalid username or password', 'error');
+        const msg = err.message || 'Invalid username or password';
+        showToast(msg, 'error');
+        if (errAlert) {
+            errAlert.textContent = msg;
+            errAlert.style.display = 'block';
+        }
     } finally {
         btn.disabled = false;
         btn.innerHTML = '<span>Login to Dashboard</span> <span>→</span>';
@@ -92,7 +118,7 @@ function logoutAdmin() {
 // ==========================================
 
 function switchAdminTab(tabName) {
-    const tabs = ['overview', 'questions', 'settings', 'results'];
+    const tabs = ['overview', 'monitoring', 'questions', 'settings', 'results'];
     const tabBtns = document.querySelectorAll('.tab-btn');
 
     tabs.forEach((tab, idx) => {
@@ -108,6 +134,7 @@ function switchAdminTab(tabName) {
         }
     });
 
+    if (tabName === 'monitoring') loadLiveMonitoringData();
     if (tabName === 'questions') loadAdminQuestions();
     if (tabName === 'settings') loadAdminSettings();
     if (tabName === 'results') loadAdminResults();
@@ -122,6 +149,7 @@ async function loadAllDashboardData() {
     try {
         await Promise.all([
             loadDashboardStats(),
+            loadLiveMonitoringData(),
             loadAdminQuestions(),
             loadAdminSettings(),
             loadAdminResults()
@@ -136,26 +164,261 @@ async function loadDashboardStats() {
         const res = await apiRequest('/api/admin/dashboard');
         const stats = res.data;
 
-        document.getElementById('stat-total-questions').textContent = stats.total_questions;
-        document.getElementById('stat-total-students').textContent = stats.total_students;
-        document.getElementById('stat-total-attempts').textContent = stats.total_quiz_attempts;
-        document.getElementById('stat-avg-score').textContent = `${stats.average_percentage}%`;
-        document.getElementById('overview-duration-display').textContent = `${stats.total_duration} Minutes`;
+        document.getElementById('stat-total-questions').textContent = stats.total_questions ?? 0;
+        document.getElementById('stat-total-students').textContent = stats.total_students ?? 0;
+        document.getElementById('stat-total-attempts').textContent = stats.total_quiz_attempts ?? 0;
+
+        const activeEl = document.getElementById('stat-active-students');
+        if (activeEl) activeEl.textContent = stats.active_students ?? 0;
+
+        const completedEl = document.getElementById('stat-completed-quizzes');
+        if (completedEl) completedEl.textContent = stats.completed_quizzes ?? 0;
+
+        const suspiciousEl = document.getElementById('stat-suspicious-alerts');
+        if (suspiciousEl) suspiciousEl.textContent = stats.suspicious_alerts_count ?? 0;
+
+        const activeBadgeCount = document.getElementById('tab-active-students-count');
+        if (activeBadgeCount) activeBadgeCount.textContent = stats.active_students ?? 0;
+
+        const avgScore = document.getElementById('stat-avg-score');
+        if (avgScore) avgScore.textContent = `${stats.average_percentage}%`;
+
+        const durationDisp = document.getElementById('overview-duration-display');
+        if (durationDisp) durationDisp.textContent = `${stats.total_duration} Minutes`;
 
         // Update live status badge
         const badge = document.getElementById('quiz-live-status-badge');
-        if (stats.quiz_status === 'active') {
-            badge.className = 'badge badge-success';
-            badge.textContent = 'Status: Active';
-        } else if (stats.quiz_status === 'stopped') {
-            badge.className = 'badge badge-warning';
-            badge.textContent = 'Status: Stopped';
-        } else {
-            badge.className = 'badge badge-danger';
-            badge.textContent = 'Status: Disabled';
+        if (badge) {
+            if (stats.quiz_status === 'active') {
+                badge.className = 'badge badge-success';
+                badge.textContent = 'Status: Active';
+            } else if (stats.quiz_status === 'stopped') {
+                badge.className = 'badge badge-warning';
+                badge.textContent = 'Status: Stopped';
+            } else {
+                badge.className = 'badge badge-danger';
+                badge.textContent = 'Status: Disabled';
+            }
         }
     } catch (err) {
         console.error('Stats load error:', err);
+    }
+}
+
+function startLiveMonitoringPolling() {
+    clearInterval(liveMonitoringPollingInterval);
+    // Poll every 5 seconds to keep Render lightweight while giving real-time data
+    liveMonitoringPollingInterval = setInterval(() => {
+        const token = localStorage.getItem('admin_token');
+        if (!token) {
+            clearInterval(liveMonitoringPollingInterval);
+            return;
+        }
+        loadLiveMonitoringData(true);
+        loadDashboardStats();
+    }, 5000);
+}
+
+
+// ==========================================
+// LIVE STUDENT MONITORING
+// ==========================================
+
+async function loadLiveMonitoringData(isSilent = false) {
+    try {
+        const res = await apiRequest('/api/admin/live-monitoring');
+        allMonitoringStudents = res.data || [];
+        filterMonitoringTable();
+    } catch (err) {
+        if (!isSilent) {
+            showToast('Error loading live monitoring data: ' + err.message, 'error');
+        }
+    }
+}
+
+function filterMonitoringTable() {
+    const q = (document.getElementById('monitoring-search-input')?.value || '').trim().toLowerCase();
+    const filterStatus = document.getElementById('monitoring-filter-status')?.value || 'all';
+
+    let filtered = allMonitoringStudents;
+
+    if (q) {
+        filtered = filtered.filter(item =>
+            (item.student_name || '').toLowerCase().includes(q) ||
+            (item.register_number || '').toLowerCase().includes(q)
+        );
+    }
+
+    if (filterStatus === 'active') {
+        filtered = filtered.filter(item => item.status === 'active');
+    } else if (filterStatus === 'suspicious') {
+        filtered = filtered.filter(item => (item.suspicious_events_count || 0) >= 1);
+    } else if (filterStatus === 'high_risk') {
+        filtered = filtered.filter(item => (item.suspicious_events_count || 0) >= 3 || (item.tab_switches_count || 0) >= 3);
+    } else if (filterStatus === 'completed') {
+        filtered = filtered.filter(item => ['completed', 'auto_submitted'].includes(item.status));
+    } else if (filterStatus === 'terminated') {
+        filtered = filtered.filter(item => item.status === 'terminated');
+    }
+
+    renderMonitoringTable(filtered);
+}
+
+function renderMonitoringTable(students) {
+    const tbody = document.getElementById('monitoring-table-body');
+    if (!tbody) return;
+
+    if (!students || students.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="8" style="text-align: center; color: var(--text-muted); padding: 3rem;">
+                    No student sessions matching the current filter.
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    tbody.innerHTML = students.map(s => {
+        let statusBadge = '';
+        if (s.status === 'active') {
+            statusBadge = `<span class="badge badge-status-active">🟢 Active</span>`;
+        } else if (s.status === 'disconnected') {
+            statusBadge = `<span class="badge badge-status-disconnected">⚪ Disconnected</span>`;
+        } else if (s.status === 'completed' || s.status === 'auto_submitted') {
+            statusBadge = `<span class="badge badge-status-completed">✓ Completed</span>`;
+        } else if (s.status === 'terminated') {
+            statusBadge = `<span class="badge badge-status-terminated">🛑 Terminated</span>`;
+        } else {
+            statusBadge = `<span class="badge badge-warning">${s.status}</span>`;
+        }
+
+        const tabSwitchAlert = s.tab_switches_count >= 3 ? 'badge-alert-high' : (s.tab_switches_count > 0 ? 'badge-alert-med' : 'badge-primary');
+        const fullscreenAlert = s.fullscreen_exits_count > 0 ? 'badge-alert-high' : 'badge-primary';
+        const suspiciousAlert = s.suspicious_events_count >= 3 ? 'badge-alert-high' : (s.suspicious_events_count > 0 ? 'badge-alert-med' : 'badge-primary');
+
+        const startTimeStr = s.start_time ? new Date(s.start_time).toLocaleTimeString() : '-';
+
+        return `
+            <tr>
+                <td><strong>${escapeHtml(s.student_name)}</strong></td>
+                <td><code style="color: var(--secondary); font-weight: 700;">${escapeHtml(s.register_number)}</code></td>
+                <td>${statusBadge}</td>
+                <td><span class="badge ${tabSwitchAlert}">📑 ${s.tab_switches_count ?? 0}</span></td>
+                <td><span class="badge ${fullscreenAlert}">🖥️ ${s.fullscreen_exits_count ?? 0}</span></td>
+                <td><span class="badge ${suspiciousAlert}">⚠️ ${s.suspicious_events_count ?? 0}</span></td>
+                <td style="font-size: 0.82rem; color: var(--text-secondary);">${startTimeStr}</td>
+                <td style="text-align: right; white-space: nowrap;">
+                    <button class="btn btn-secondary btn-sm" onclick="openActivityLogsModal('${s._id}')" title="Inspect full activity logs">
+                        📋 Logs
+                    </button>
+                    ${s.status === 'active' || s.status === 'disconnected' ? `
+                        <button class="btn btn-outline-danger btn-sm" onclick="terminateSession('${s._id}', '${escapeHtml(s.student_name)}')" title="Terminate this student session">
+                            🛑 Terminate
+                        </button>
+                    ` : ''}
+                </td>
+            </tr>
+        `;
+    }).join('');
+}
+
+async function openActivityLogsModal(attemptId) {
+    const student = allMonitoringStudents.find(s => s._id === attemptId);
+    const subtitle = document.getElementById('activity-logs-subtitle');
+    const summaryBar = document.getElementById('activity-logs-summary-bar');
+    const timeline = document.getElementById('activity-logs-timeline');
+
+    if (student && subtitle) {
+        subtitle.innerHTML = `Student: <strong>${escapeHtml(student.student_name)}</strong> | Reg No: <strong>${escapeHtml(student.register_number)}</strong> | Status: <strong>${student.status}</strong>`;
+    }
+
+    if (summaryBar) {
+        summaryBar.innerHTML = `
+            <span class="badge ${student?.tab_switches_count >= 3 ? 'badge-alert-high' : 'badge-primary'}">
+                📑 Tab Switches: ${student?.tab_switches_count ?? 0}
+            </span>
+            <span class="badge ${student?.fullscreen_exits_count > 0 ? 'badge-alert-high' : 'badge-primary'}">
+                🖥️ Fullscreen Exits: ${student?.fullscreen_exits_count ?? 0}
+            </span>
+            <span class="badge ${student?.suspicious_events_count >= 3 ? 'badge-alert-high' : 'badge-primary'}">
+                ⚠️ Total Suspicious Events: ${student?.suspicious_events_count ?? 0}
+            </span>
+        `;
+    }
+
+    if (timeline) {
+        timeline.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 2rem;">Loading event logs from MongoDB...</div>`;
+    }
+
+    document.getElementById('activity-logs-modal').classList.add('active');
+
+    try {
+        const res = await apiRequest(`/api/admin/activity-logs/${attemptId}`);
+        const logs = res.data || [];
+
+        if (logs.length === 0) {
+            timeline.innerHTML = `
+                <div style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                    ✓ Clean record. No suspicious activity detected for this candidate.
+                </div>
+            `;
+            return;
+        }
+
+        timeline.innerHTML = logs.map(l => {
+            const timeStr = l.event_timestamp ? new Date(l.event_timestamp).toLocaleTimeString() : '-';
+            let priorityClass = 'normal';
+            if (['TAB_SWITCH', 'FULLSCREEN_EXIT', 'MULTIPLE_SESSION'].includes(l.event_type)) {
+                priorityClass = 'high';
+            }
+
+            return `
+                <div class="activity-item ${priorityClass}">
+                    <div>
+                        <div style="font-weight: 700; font-size: 0.9rem; margin-bottom: 0.2rem;">
+                            <span class="badge ${priorityClass === 'high' ? 'badge-danger' : 'badge-warning'}" style="margin-right: 0.45rem;">
+                                ${escapeHtml(l.event_type)}
+                            </span>
+                            ${escapeHtml(l.event_description || '')}
+                        </div>
+                        <div style="font-size: 0.78rem; color: var(--text-muted);">
+                            Occurrence #${l.event_count || 1}
+                        </div>
+                    </div>
+                    <div style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-secondary); white-space: nowrap;">
+                        ${timeStr}
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+    } catch (err) {
+        if (timeline) {
+            timeline.innerHTML = `<div style="color: var(--danger); padding: 1.5rem;">Failed to load logs: ${err.message}</div>`;
+        }
+    }
+}
+
+function closeActivityLogsModal() {
+    const modal = document.getElementById('activity-logs-modal');
+    if (modal) modal.classList.remove('active');
+}
+
+async function terminateSession(attemptId, studentName) {
+    if (!confirm(`Are you sure you want to terminate the active examination session for ${studentName || 'this student'}?\n\nTheir quiz interface will be stopped immediately.`)) {
+        return;
+    }
+
+    try {
+        await apiRequest(`/api/admin/sessions/${attemptId}/terminate`, {
+            method: 'POST'
+        });
+        showToast(`Examination session for ${studentName} terminated.`, 'success');
+        await loadLiveMonitoringData();
+        await loadDashboardStats();
+    } catch (err) {
+        showToast('Failed to terminate session: ' + err.message, 'error');
     }
 }
 

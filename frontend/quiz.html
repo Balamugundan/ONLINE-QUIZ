@@ -193,6 +193,61 @@
         </div>
     </div>
 
+    <!-- ANTI-CHEATING WARNING MODAL -->
+    <div id="anti-cheat-warning-modal" class="warning-modal-overlay">
+        <div class="warning-card">
+            <div class="warning-badge-pill" id="warning-badge-pill">
+                ⚠️ Warning Level 1
+            </div>
+            <h3 class="warning-title" id="warning-title">
+                Leaving Examination Screen Detected
+            </h3>
+            <p class="warning-desc" id="warning-desc">
+                Warning! Leaving the examination screen has been recorded. Please remain on the quiz page until you complete the examination.
+            </p>
+            <div class="warning-count-box">
+                Suspicious Activity Occurrences: <strong id="warning-count-display" style="color: var(--danger); font-size: 1.15rem;">1</strong>
+            </div>
+            <button type="button" class="btn btn-primary btn-lg" onclick="acknowledgeWarning()" style="width: 100%;">
+                I Understand, Return to Quiz
+            </button>
+        </div>
+    </div>
+
+    <!-- FULLSCREEN RE-ENTRY PROMPT MODAL -->
+    <div id="fullscreen-prompt-modal" class="warning-modal-overlay">
+        <div class="warning-card">
+            <div class="warning-badge-pill" style="background: rgba(245, 158, 11, 0.2); color: #f59e0b; border: 1px solid #f59e0b;">
+                🖥️ Fullscreen Required
+            </div>
+            <h3 class="warning-title">
+                Fullscreen Mode Exited
+            </h3>
+            <p class="warning-desc">
+                You have exited fullscreen mode. This event has been logged for the examination administrator. Please return to fullscreen to continue.
+            </p>
+            <button type="button" class="btn btn-success btn-lg" onclick="requestFullScreenMode()" style="width: 100%;">
+                Return to Fullscreen ⛶
+            </button>
+        </div>
+    </div>
+
+    <!-- SESSION TERMINATED BANNER MODAL -->
+    <div id="session-terminated-modal" class="warning-modal-overlay">
+        <div class="warning-card" style="border-color: var(--danger);">
+            <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">🛑</div>
+            <h3 class="warning-title" style="color: var(--danger);">
+                Examination Session Terminated
+            </h3>
+            <p class="warning-desc" id="termination-message">
+                Your examination session has been terminated by the administrator due to policy violations.
+            </p>
+            <a href="index.html" class="btn btn-secondary btn-lg" style="width: 100%;">
+                Return to Home Portal
+            </a>
+        </div>
+    </div>
+
     <script src="js/config.js"></script>
     <script src="js/quiz.js"></script>
 </body>

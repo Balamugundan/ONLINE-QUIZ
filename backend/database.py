@@ -30,26 +30,30 @@ else:
 
 
 class LocalCollection:
-    """A lightweight MongoDB collection emulator for offline/local development."""
+    """A lightweight MongoDB collection emulator for offline/local development with in-memory caching."""
+    _memory_store = {}
+
     def __init__(self, filename, collection_name):
         self.filename = filename
         self.collection_name = collection_name
-        self._ensure_file()
+        if self.collection_name not in LocalCollection._memory_store:
+            LocalCollection._memory_store[self.collection_name] = self._load_initial()
 
-    def _ensure_file(self):
-        if not os.path.exists(self.filename):
-            with open(self.filename, 'w', encoding='utf-8') as f:
-                json.dump({}, f)
+    def _load_initial(self):
+        try:
+            if os.path.exists(self.filename):
+                with open(self.filename, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                    return data.get(self.collection_name, [])
+        except Exception:
+            pass
+        return []
 
     def _load_data(self):
-        try:
-            with open(self.filename, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-                return data.get(self.collection_name, [])
-        except Exception:
-            return []
+        return list(LocalCollection._memory_store.get(self.collection_name, []))
 
     def _save_data(self, docs):
+        LocalCollection._memory_store[self.collection_name] = list(docs)
         try:
             all_data = {}
             if os.path.exists(self.filename):
@@ -61,8 +65,9 @@ class LocalCollection:
             all_data[self.collection_name] = docs
             with open(self.filename, 'w', encoding='utf-8') as f:
                 json.dump(all_data, f, indent=2, default=str)
-        except Exception as e:
-            print(f"Error saving {self.collection_name}: {e}")
+        except Exception:
+            # Safe in-memory fallback
+            pass
 
     def insert_one(self, doc):
         docs = self._load_data()
@@ -170,6 +175,7 @@ questions_col = get_collection("questions")
 students_col = get_collection("students")
 quiz_attempts_col = get_collection("quiz_attempts")
 quiz_settings_col = get_collection("quiz_settings")
+quiz_activity_logs_col = get_collection("quiz_activity_logs")
 
 def init_default_data():
     """Initializes admin account and default quiz settings if absent."""

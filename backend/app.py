@@ -43,6 +43,8 @@ def get_public_settings():
     """Returns general quiz status and instructions for students."""
     try:
         settings = quiz.get_settings()
+        qs = quiz.get_sanitized_questions_for_student()
+        total_marks = sum(int(q.get("marks", 1)) for q in qs)
         sanitized = {
             "quiz_title": settings.get("quiz_title", "Online Quiz"),
             "quiz_status": settings.get("quiz_status", "active"),
@@ -50,7 +52,8 @@ def get_public_settings():
             "total_duration": settings.get("total_duration", 15),
             "instructions": settings.get("instructions", ""),
             "pass_percentage": settings.get("pass_percentage", 50),
-            "total_questions": len(quiz.get_sanitized_questions_for_student())
+            "total_questions": len(qs),
+            "total_marks": total_marks
         }
         return jsonify({"status": "success", "data": sanitized})
     except Exception as e:
@@ -70,7 +73,12 @@ def admin_login():
     if not username or not password:
         return jsonify({"status": "error", "message": "Username and password are required"}), 400
 
-    auth_result = authenticate_admin(username, password)
+    client_ip = request.headers.get("X-Forwarded-For", request.remote_addr or "127.0.0.1").split(",")[0].strip()
+    auth_result = authenticate_admin(username, password, client_ip=client_ip)
+    
+    if auth_result and "error" in auth_result:
+        return jsonify({"status": "error", "message": auth_result["error"]}), 429
+        
     if not auth_result:
         return jsonify({"status": "error", "message": "Invalid admin username or password"}), 401
 
@@ -260,7 +268,8 @@ def quiz_start():
         if not name or not reg_no:
             return jsonify({"status": "error", "message": "Name and Register Number are required"}), 400
 
-        attempt, questions, settings = quiz.start_quiz_attempt(name, reg_no)
+        client_ip = request.headers.get("X-Forwarded-For", request.remote_addr or "127.0.0.1").split(",")[0].strip()
+        attempt, questions, settings = quiz.start_quiz_attempt(name, reg_no, client_ip=client_ip)
 
         return jsonify({
             "status": "success",
@@ -268,11 +277,81 @@ def quiz_start():
             "questions": questions,     # SANITIZED: No correct_answer!
             "settings": {
                 "total_duration": settings.get("total_duration", 15),
-                "quiz_title": settings.get("quiz_title", "Online Quiz")
+                "quiz_title": settings.get("quiz_title", "Online Quiz"),
+                "server_remaining_seconds": attempt.get("server_remaining_seconds")
             }
         })
     except ValueError as e:
         return jsonify({"status": "error", "message": str(e)}), 400
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+@app.route("/api/quiz/activity-log", methods=["POST"])
+def quiz_activity_log():
+    """Records student browser anti-cheat activities in MongoDB."""
+    try:
+        data = request.get_json() or {}
+        attempt_id = data.get("attempt_id")
+        event_type = data.get("event_type", "UNKNOWN")
+        event_desc = data.get("event_description", "")
+        event_count = data.get("event_count", 1)
+
+        if not attempt_id:
+            return jsonify({"status": "error", "message": "Missing attempt_id"}), 400
+
+        success = quiz.log_student_activity(attempt_id, event_type, event_desc, event_count)
+        if not success:
+            return jsonify({"status": "error", "message": "Invalid attempt session"}), 404
+
+        return jsonify({"status": "success", "message": "Activity logged"})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+@app.route("/api/quiz/heartbeat", methods=["POST"])
+def quiz_heartbeat():
+    """Periodic student heartbeat to detect active participation and termination."""
+    try:
+        data = request.get_json() or {}
+        attempt_id = data.get("attempt_id")
+        session_token = data.get("session_token")
+
+        if not attempt_id:
+            return jsonify({"status": "error", "message": "Missing attempt_id"}), 400
+
+        result = quiz.process_heartbeat(attempt_id, session_token)
+        return jsonify({"status": "success", "data": result})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+@app.route("/api/admin/live-monitoring", methods=["GET"])
+@admin_required
+def admin_live_monitoring():
+    """Live student monitoring table for administrator."""
+    try:
+        students = quiz.get_live_monitoring_students()
+        return jsonify({"status": "success", "data": students})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+@app.route("/api/admin/activity-logs/<attempt_id>", methods=["GET"])
+@admin_required
+def admin_activity_logs(attempt_id):
+    """Retrieves full suspicious activity timeline for a specific student."""
+    try:
+        logs = quiz.get_student_activity_logs(attempt_id)
+        return jsonify({"status": "success", "data": logs})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+@app.route("/api/admin/sessions/<attempt_id>/terminate", methods=["POST"])
+@admin_required
+def admin_terminate_session(attempt_id):
+    """Terminates an ongoing student examination session."""
+    try:
+        success = quiz.terminate_student_session(attempt_id)
+        if not success:
+            return jsonify({"status": "error", "message": "Session not found"}), 404
+        return jsonify({"status": "success", "message": "Student session terminated successfully"})
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 

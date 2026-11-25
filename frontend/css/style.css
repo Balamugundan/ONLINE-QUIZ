@@ -1197,12 +1197,400 @@ input, select, textarea {
     color: var(--text-muted);
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .navbar { padding: 0.75rem 1rem; }
-    .main-content { padding: 1rem; }
-    .hero-title { font-size: 2.25rem; }
-    .portal-grid { grid-template-columns: 1fr; }
-    .stats-grid { grid-template-columns: 1fr; }
-    .data-table th, .data-table td { padding: 0.75rem 0.65rem; font-size: 0.82rem; }
+/* ===================================================================
+   ANTI-CHEATING WARNING & LIVE MONITORING STYLES
+   =================================================================== */
+.warning-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
 }
+
+.warning-modal-overlay.active {
+    display: flex;
+    animation: fadeIn 0.25s ease;
+}
+
+.warning-card {
+    background: var(--bg-surface);
+    border: 2px solid var(--danger);
+    border-radius: var(--radius-lg);
+    max-width: 520px;
+    width: 100%;
+    padding: 2.25rem 2rem;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(239, 68, 68, 0.35);
+    position: relative;
+}
+
+.warning-badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 1rem;
+    border-radius: var(--radius-full);
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: var(--danger-light);
+    color: var(--danger);
+    margin-bottom: 1rem;
+}
+
+.warning-title {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+}
+
+.warning-desc {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.75rem;
+}
+
+.warning-count-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    margin-bottom: 1.75rem;
+    font-size: 0.92rem;
+}
+
+/* Suspicious Events Badges */
+.badge-alert-high {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    border: 1px solid #ef4444;
+    font-weight: 700;
+}
+
+.badge-alert-med {
+    background: rgba(245, 158, 11, 0.2);
+    color: #f59e0b;
+    border: 1px solid #f59e0b;
+    font-weight: 700;
+}
+
+.badge-status-active {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+    border: 1px solid #10b981;
+}
+
+.badge-status-completed {
+    background: rgba(99, 102, 241, 0.2);
+    color: #6366f1;
+    border: 1px solid #6366f1;
+}
+
+.badge-status-terminated {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    border: 1px solid #ef4444;
+}
+
+.badge-status-disconnected {
+    background: rgba(100, 116, 139, 0.2);
+    color: #94a3b8;
+    border: 1px solid #64748b;
+}
+
+/* Activity timeline in Admin logs */
+.activity-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+.activity-item {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--warning);
+    border-radius: var(--radius-sm);
+    padding: 0.85rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.activity-item.high {
+    border-left-color: var(--danger);
+}
+
+.activity-item.normal {
+    border-left-color: var(--primary);
+}
+
+/* ===================================================================
+   RESPONSIVE DESIGN SYSTEM (ALL DEVICES)
+   =================================================================== */
+
+/* Tablet & Mobile Breakpoint (<= 992px) */
+@media (max-width: 992px) {
+    .quiz-wrapper {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .quiz-sidebar {
+        position: static;
+        order: 2;
+    }
+
+    .quiz-main-panel {
+        order: 1;
+        padding: 1.75rem;
+    }
+
+    .portal-grid {
+        grid-template-columns: 1fr;
+        max-width: 540px;
+    }
+}
+
+/* Standard Mobile Breakpoint (<= 768px) */
+@media (max-width: 768px) {
+    body {
+        font-size: 15px;
+    }
+
+    .navbar {
+        padding: 0.75rem 1rem;
+    }
+
+    .nav-brand {
+        font-size: 1.05rem;
+    }
+
+    .brand-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 1.1rem;
+    }
+
+    .main-content {
+        padding: 1rem 0.75rem;
+    }
+
+    .hero-section {
+        margin: 1.5rem auto 2rem auto;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+        line-height: 1.2;
+    }
+
+    .hero-subtitle {
+        font-size: 0.95rem;
+    }
+
+    .portal-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .auth-card, .instructions-card {
+        padding: 1.75rem 1.25rem;
+        margin: 1.5rem auto;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    .stat-card {
+        padding: 1.15rem;
+        gap: 0.85rem;
+    }
+
+    .stat-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 1.3rem;
+    }
+
+    .stat-info .stat-value {
+        font-size: 1.45rem;
+    }
+
+    .stat-info .stat-label {
+        font-size: 0.78rem;
+    }
+
+    /* Admin Tab Navigation Scroll */
+    .admin-nav-tabs {
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding: 0.4rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .admin-nav-tabs::-webkit-scrollbar {
+        display: none;
+    }
+
+    .tab-btn {
+        padding: 0.55rem 1rem;
+        font-size: 0.85rem;
+        flex-shrink: 0;
+    }
+
+    /* Table Scroll & Responsive View */
+    .table-container {
+        border-radius: var(--radius-sm);
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table-header-bar {
+        padding: 1rem;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .data-table th, .data-table td {
+        padding: 0.75rem 0.65rem;
+        font-size: 0.82rem;
+        white-space: nowrap;
+    }
+
+    /* Quiz Question Panel on Mobile */
+    .quiz-main-panel {
+        padding: 1.25rem 1rem;
+    }
+
+    .quiz-header-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .question-text {
+        font-size: 1.15rem;
+    }
+
+    .option-card {
+        padding: 0.95rem 1rem;
+        gap: 0.85rem;
+        min-height: 48px;
+    }
+
+    .option-letter {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
+    }
+
+    .option-text {
+        font-size: 0.95rem;
+    }
+
+    .quiz-footer-nav {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 0.5rem;
+    }
+
+    .quiz-footer-nav .btn {
+        padding: 0.65rem 0.9rem;
+        font-size: 0.85rem;
+        min-height: 44px;
+    }
+
+    /* Palette on Mobile */
+    .palette-grid {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 0.45rem;
+    }
+
+    .palette-btn {
+        width: 100%;
+        height: 42px;
+        font-size: 0.85rem;
+    }
+
+    /* Modal Mobile */
+    .modal-box {
+        max-width: 96vw;
+        max-height: 94vh;
+        margin: 0.5rem;
+    }
+
+    .modal-body {
+        padding: 1.25rem 1rem;
+    }
+
+    /* Result Card Mobile */
+    .result-card {
+        padding: 2rem 1.25rem;
+    }
+
+    .score-circle-wrapper {
+        width: 140px;
+        height: 140px;
+    }
+
+    .score-number {
+        font-size: 2.2rem;
+    }
+
+    .result-breakdown-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+    }
+
+    .breakdown-box {
+        padding: 0.9rem;
+    }
+
+    .breakdown-box .val {
+        font-size: 1.35rem;
+    }
+}
+
+/* Small Smartphone Breakpoint (<= 480px) */
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-title {
+        font-size: 1.75rem;
+    }
+
+    .palette-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .result-breakdown-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .quiz-footer-nav {
+        flex-wrap: wrap;
+    }
+}
+

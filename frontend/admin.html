@@ -48,16 +48,18 @@
             <form id="admin-login-form" onsubmit="handleAdminLogin(event)">
                 <div class="form-group">
                     <label class="form-label" for="login-username">Admin Username</label>
-                    <input type="text" id="login-username" class="form-input" required placeholder="Default: Admin" autocomplete="username">
+                    <input type="text" id="login-username" class="form-input" required placeholder="Enter admin username" autocomplete="username">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="login-password">Admin Password</label>
-                    <input type="password" id="login-password" class="form-input" required placeholder="Default: Admin@01" autocomplete="current-password">
+                    <div style="position: relative; display: flex; align-items: center;">
+                        <input type="password" id="login-password" class="form-input" required placeholder="Enter admin password" autocomplete="current-password" style="padding-right: 48px;">
+                        <button type="button" id="toggle-password-btn" onclick="togglePasswordVisibility('login-password', this)" title="Show/Hide Password" style="position: absolute; right: 12px; background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 1.15rem; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px;" aria-label="Toggle password visibility">
+                            👁️
+                        </button>
+                    </div>
                 </div>
-                <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1.5rem; background: var(--bg-surface); padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
-                    💡 <strong>Default Admin Credentials:</strong><br>
-                    Username: <code>Admin</code> | Password: <code>Admin@01</code>
-                </div>
+                <div id="login-error-alert" style="display: none; padding: 0.75rem 1rem; border-radius: var(--radius-sm); background: var(--danger-light); color: var(--danger); font-size: 0.88rem; margin-bottom: 1.25rem; border: 1px solid var(--danger);"></div>
                 <button type="submit" id="login-submit-btn" class="btn btn-primary btn-lg" style="width: 100%;">
                     <span>Login to Dashboard</span>
                     <span>→</span>
@@ -91,6 +93,9 @@
                 <button class="tab-btn active" onclick="switchAdminTab('overview')">
                     📊 Overview
                 </button>
+                <button class="tab-btn" onclick="switchAdminTab('monitoring')" style="color: var(--danger); font-weight: 700;">
+                    🚨 Live Monitoring (<span id="tab-active-students-count">0</span>)
+                </button>
                 <button class="tab-btn" onclick="switchAdminTab('questions')">
                     📝 Questions Management (<span id="tab-questions-count">0</span>)
                 </button>
@@ -117,7 +122,7 @@
                         <div class="stat-icon cyan">👨‍🎓</div>
                         <div class="stat-info">
                             <div class="stat-value" id="stat-total-students">0</div>
-                            <div class="stat-label">Registered Students</div>
+                            <div class="stat-label">Total Students</div>
                         </div>
                     </div>
                     <div class="stat-card">
@@ -128,10 +133,24 @@
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon amber">📈</div>
+                        <div class="stat-icon emerald" style="background: rgba(16, 185, 129, 0.2); color: #10b981;">🟢</div>
                         <div class="stat-info">
-                            <div class="stat-value" id="stat-avg-score">0%</div>
-                            <div class="stat-label">Average Score</div>
+                            <div class="stat-value" id="stat-active-students">0</div>
+                            <div class="stat-label">Active Students</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon amber" style="background: rgba(99, 102, 241, 0.2); color: #6366f1;">✅</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="stat-completed-quizzes">0</div>
+                            <div class="stat-label">Completed Quizzes</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon amber" style="background: rgba(239, 68, 68, 0.2); color: #ef4444;">🚨</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="stat-suspicious-alerts">0</div>
+                            <div class="stat-label">Suspicious Alerts</div>
                         </div>
                     </div>
                 </div>
@@ -174,6 +193,62 @@
                                 <strong id="overview-total-marks">25 Marks</strong>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: LIVE STUDENT MONITORING -->
+            <div id="tab-monitoring" class="admin-tab-content">
+                <div class="table-container">
+                    <div class="table-header-bar">
+                        <div>
+                            <div style="font-size: 1.15rem; font-weight: 800; display: flex; align-items: center; gap: 0.5rem;">
+                                <span>🚨 LIVE STUDENT MONITORING</span>
+                                <span class="status-indicator active" style="font-size: 0.75rem; padding: 0.2rem 0.65rem;">
+                                    <span class="status-dot"></span> Real-Time Polling
+                                </span>
+                            </div>
+                            <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">
+                                Track active examination sessions, screen exits, tab switching, and suspicious attempts.
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+                            <input type="text" id="monitoring-search-input" class="form-input" placeholder="Search by Reg No or Name..." style="padding: 0.45rem 0.85rem; font-size: 0.85rem; width: 220px;" oninput="filterMonitoringTable()">
+                            <select id="monitoring-filter-status" class="form-select" style="padding: 0.45rem 0.85rem; font-size: 0.85rem; width: 160px;" onchange="filterMonitoringTable()">
+                                <option value="all">All Statuses</option>
+                                <option value="active">Active Sessions</option>
+                                <option value="suspicious">Suspicious (≥1 alert)</option>
+                                <option value="high_risk">High Risk (≥3 alerts)</option>
+                                <option value="completed">Completed</option>
+                                <option value="terminated">Terminated</option>
+                            </select>
+                            <button class="btn btn-secondary btn-sm" onclick="loadLiveMonitoringData()">
+                                🔄 Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>Register Number</th>
+                                    <th>Status</th>
+                                    <th>Tab Switches</th>
+                                    <th>Fullscreen Exits</th>
+                                    <th>Suspicious Events</th>
+                                    <th>Started At</th>
+                                    <th style="text-align: right;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="monitoring-table-body">
+                                <tr>
+                                    <td colspan="8" style="text-align: center; color: var(--text-muted); padding: 2.5rem;">
+                                        Loading active student sessions...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -392,6 +467,37 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeResultDetailModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==============================================
+         STUDENT ACTIVITY & ANTI-CHEATING LOGS MODAL
+         ============================================== -->
+    <div id="activity-logs-modal" class="modal-overlay">
+        <div class="modal-box" style="max-width: 760px;">
+            <div class="modal-header">
+                <div>
+                    <h3 class="modal-title" style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span>🚨 Suspicious Activity & Event Timeline</span>
+                    </h3>
+                    <div id="activity-logs-subtitle" style="font-size: 0.88rem; color: var(--text-secondary); margin-top: 0.25rem;">
+                        Student: - | Register No: -
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeActivityLogsModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="activity-logs-summary-bar" style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;"></div>
+                <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                    Recorded Events (Chronological)
+                </h4>
+                <div class="activity-timeline" id="activity-logs-timeline">
+                    <!-- Events injected dynamically -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeActivityLogsModal()">Close</button>
             </div>
         </div>
     </div>

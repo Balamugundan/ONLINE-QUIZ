@@ -38,6 +38,9 @@ async function fetchQuizStatus() {
         if (quizPublicSettings) {
             document.getElementById('badge-total-q').textContent = quizPublicSettings.total_questions || 0;
             document.getElementById('badge-total-duration').textContent = `${quizPublicSettings.total_duration || 15}m`;
+            if (document.getElementById('badge-total-marks')) {
+                document.getElementById('badge-total-marks').textContent = `${quizPublicSettings.total_marks ?? '--'} pts`;
+            }
             if (quizPublicSettings.quiz_title) {
                 document.getElementById('instructions-quiz-title').textContent = quizPublicSettings.quiz_title;
             }
@@ -56,8 +59,15 @@ async function handleStudentEntry(e) {
 
     errBox.style.display = 'none';
 
-    if (!nameInput || !regInput) {
-        errBox.textContent = 'Please provide both Full Name and Register Number.';
+    if (!nameInput || nameInput.length < 2) {
+        errBox.textContent = 'Please provide a valid Full Name (at least 2 characters).';
+        errBox.style.display = 'block';
+        return;
+    }
+
+    const regRegex = /^[A-Z0-9_-]{3,25}$/;
+    if (!regInput || !regRegex.test(regInput)) {
+        errBox.textContent = 'Please enter a valid Register / Roll Number (3 to 25 letters or numbers).';
         errBox.style.display = 'block';
         return;
     }

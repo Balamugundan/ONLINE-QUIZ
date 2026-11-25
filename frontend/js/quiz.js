@@ -3,6 +3,7 @@
  */
 
 let attemptId = null;
+let sessionToken = null;
 let questions = [];
 let currentIndex = 0;
 let userAnswers = {};               // { [questionId]: 'A' }
@@ -11,8 +12,15 @@ let questionExpired = {};           // { [questionId]: boolean }
 
 let questionTimerInterval = null;
 let overallTimerInterval = null;
+let heartbeatInterval = null;
 let overallSecondsRemaining = 900;  // 15 mins default
 let isSubmitting = false;
+
+// Anti-Cheating & Activity Monitoring State
+let suspiciousCount = 0;
+let lastSuspiciousEventTime = 0;
+let hasEnteredFullscreen = false;
+let isMonitoringActive = false;
 
 document.addEventListener('DOMContentLoaded', async () => {
     const studentName = sessionStorage.getItem('student_name');
@@ -41,6 +49,7 @@ async function initializeQuizSession(name, regNo) {
         });
 
         attemptId = res.attempt._id;
+        sessionToken = res.attempt.session_token || null;
         questions = res.questions || [];
         userAnswers = res.attempt.answers || {};
 
@@ -59,9 +68,13 @@ async function initializeQuizSession(name, regNo) {
             questionExpired[q._id] = false;
         });
 
-        // Initialize overall quiz duration
-        const totalDurationMins = parseInt(res.settings?.total_duration) || 15;
-        calculateOverallRemainingTime(res.attempt.start_time, totalDurationMins);
+        // Initialize overall quiz duration with authoritative server-side remaining time
+        if (typeof res.settings?.server_remaining_seconds === 'number') {
+            overallSecondsRemaining = Math.max(0, res.settings.server_remaining_seconds);
+        } else {
+            const totalDurationMins = parseInt(res.settings?.total_duration) || 15;
+            calculateOverallRemainingTime(res.attempt.start_time, totalDurationMins);
+        }
 
         loadingView.style.display = 'none';
         activeView.style.display = 'grid';
@@ -71,6 +84,15 @@ async function initializeQuizSession(name, regNo) {
         renderQuestion(currentIndex);
         startQuestionTimer();
         startOverallTimer();
+
+        // Start Anti-Cheating Monitoring & Heartbeat
+        initAntiCheatingMonitoring();
+        startHeartbeat();
+
+        // Request Fullscreen mode gently
+        setTimeout(() => {
+            requestFullScreenMode();
+        }, 500);
 
     } catch (err) {
         loadingView.style.display = 'none';
@@ -399,8 +421,10 @@ async function executeFinalSubmission(isAutoSubmit = false) {
     if (isSubmitting) return;
     isSubmitting = true;
 
+    isMonitoringActive = false;
     clearInterval(questionTimerInterval);
     clearInterval(overallTimerInterval);
+    clearInterval(heartbeatInterval);
 
     const submitBtn = document.getElementById('final-submit-btn');
     if (submitBtn) {
@@ -431,6 +455,228 @@ async function executeFinalSubmission(isAutoSubmit = false) {
             submitBtn.textContent = 'Confirm & Submit';
         }
     }
+}
+
+// ==========================================
+// ANTI-CHEATING MONITORING & HEARTBEAT ENGINE
+// ==========================================
+
+function startHeartbeat() {
+    clearInterval(heartbeatInterval);
+    heartbeatInterval = setInterval(async () => {
+        if (!attemptId || isSubmitting) return;
+        try {
+            const res = await apiRequest('/api/quiz/heartbeat', {
+                method: 'POST',
+                body: {
+                    attempt_id: attemptId,
+                    session_token: sessionToken
+                }
+            });
+
+            if (res.data?.is_terminated) {
+                handleSessionTerminated(res.data?.message);
+            }
+        } catch (err) {
+            console.warn('Heartbeat check error:', err);
+        }
+    }, 10000);
+}
+
+function handleSessionTerminated(message) {
+    isMonitoringActive = false;
+    clearInterval(questionTimerInterval);
+    clearInterval(overallTimerInterval);
+    clearInterval(heartbeatInterval);
+
+    const modal = document.getElementById('session-terminated-modal');
+    if (modal) {
+        if (message) {
+            const desc = document.getElementById('termination-message');
+            if (desc) desc.textContent = message;
+        }
+        modal.classList.add('active');
+    } else {
+        alert(message || 'Your examination session has been terminated by the administrator.');
+        window.location.href = 'index.html';
+    }
+}
+
+function initAntiCheatingMonitoring() {
+    isMonitoringActive = true;
+
+    // 1. Tab Switching & Window Blur Detection
+    document.addEventListener('visibilitychange', () => {
+        if (!isMonitoringActive || isSubmitting) return;
+        if (document.hidden) {
+            handleSuspiciousEvent('TAB_SWITCH', 'Switched to another tab or minimized window');
+        }
+    });
+
+    window.addEventListener('blur', () => {
+        if (!isMonitoringActive || isSubmitting) return;
+        handleSuspiciousEvent('WINDOW_BLUR', 'Window lost focus / clicked outside examination screen');
+    });
+
+    // 2. Fullscreen Exit Detection
+    const handleFullscreenChange = () => {
+        if (!isMonitoringActive || isSubmitting) return;
+        const isFullscreen = !!(document.fullscreenElement || document.webkitFullscreenElement);
+        if (!isFullscreen && hasEnteredFullscreen) {
+            handleSuspiciousEvent('FULLSCREEN_EXIT', 'Exited fullscreen examination mode');
+            const promptModal = document.getElementById('fullscreen-prompt-modal');
+            if (promptModal) promptModal.classList.add('active');
+        }
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+
+    // 3. Copy, Cut, Paste & Right Click Restrictions
+    document.addEventListener('copy', (e) => {
+        if (!isMonitoringActive || isSubmitting) return;
+        e.preventDefault();
+        handleSuspiciousEvent('COPY_ATTEMPT', 'Attempted to copy examination content');
+        showToast('⚠️ Copying is restricted during the examination.', 'warning');
+    });
+
+    document.addEventListener('cut', (e) => {
+        if (!isMonitoringActive || isSubmitting) return;
+        e.preventDefault();
+        handleSuspiciousEvent('CUT_ATTEMPT', 'Attempted to cut examination content');
+    });
+
+    document.addEventListener('paste', (e) => {
+        if (!isMonitoringActive || isSubmitting) return;
+        e.preventDefault();
+        handleSuspiciousEvent('PASTE_ATTEMPT', 'Attempted to paste content into quiz');
+    });
+
+    document.addEventListener('contextmenu', (e) => {
+        if (!isMonitoringActive || isSubmitting) return;
+        e.preventDefault();
+        handleSuspiciousEvent('RIGHT_CLICK', 'Attempted right-click context menu');
+    });
+
+    // 4. Developer Tools Shortcut Detection
+    document.addEventListener('keydown', (e) => {
+        if (!isMonitoringActive || isSubmitting) return;
+
+        // F12 key
+        if (e.key === 'F12' || e.keyCode === 123) {
+            e.preventDefault();
+            handleSuspiciousEvent('DEVELOPER_TOOLS_SHORTCUT', 'Pressed F12 (Developer Tools shortcut)');
+            return;
+        }
+
+        // Ctrl+Shift+I / J / C or Cmd+Opt+I / J / C
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && ['I', 'i', 'J', 'j', 'C', 'c'].includes(e.key)) {
+            e.preventDefault();
+            handleSuspiciousEvent('DEVELOPER_TOOLS_SHORTCUT', `Pressed shortcut (Ctrl+Shift+${e.key.toUpperCase()})`);
+            return;
+        }
+
+        // Ctrl+U (View Source)
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'u' || e.key === 'U')) {
+            e.preventDefault();
+            handleSuspiciousEvent('DEVELOPER_TOOLS_SHORTCUT', 'Pressed Ctrl+U (View Source shortcut)');
+            return;
+        }
+    });
+}
+
+function requestFullScreenMode() {
+    const promptModal = document.getElementById('fullscreen-prompt-modal');
+    if (promptModal) promptModal.classList.remove('active');
+
+    const elem = document.documentElement;
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen().then(() => {
+            hasEnteredFullscreen = true;
+        }).catch(() => {
+            // Browser restricted or declined - don't falsely penalize
+        });
+    } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+        hasEnteredFullscreen = true;
+    }
+}
+
+async function handleSuspiciousEvent(eventType, description) {
+    if (!isMonitoringActive || isSubmitting) return;
+
+    const now = Date.now();
+    // Throttle duplicate events within 1.5 seconds (e.g. blur followed immediately by visibilitychange)
+    if (now - lastSuspiciousEventTime < 1500) return;
+    lastSuspiciousEventTime = now;
+
+    suspiciousCount++;
+
+    // Asynchronously send activity log to Flask backend
+    try {
+        await apiRequest('/api/quiz/activity-log', {
+            method: 'POST',
+            body: {
+                attempt_id: attemptId,
+                event_type: eventType,
+                event_description: description,
+                event_count: suspiciousCount
+            }
+        });
+    } catch (err) {
+        console.warn('Activity log sync error:', err);
+    }
+
+    // Trigger Warning Modal for tab switches / blur / exits
+    if (['TAB_SWITCH', 'WINDOW_BLUR', 'WINDOW_HIDDEN', 'FULLSCREEN_EXIT'].includes(eventType)) {
+        showWarningModal(suspiciousCount);
+    }
+}
+
+function showWarningModal(count) {
+    const modal = document.getElementById('anti-cheat-warning-modal');
+    const badge = document.getElementById('warning-badge-pill');
+    const desc = document.getElementById('warning-desc');
+    const countDisplay = document.getElementById('warning-count-display');
+
+    if (!modal) return;
+    if (countDisplay) countDisplay.textContent = count;
+
+    if (count === 1) {
+        if (badge) {
+            badge.textContent = '⚠️ Warning Level 1';
+            badge.style.background = 'rgba(245, 158, 11, 0.2)';
+            badge.style.color = '#f59e0b';
+        }
+        if (desc) {
+            desc.textContent = 'Warning! Leaving the examination screen has been recorded. Please remain on the quiz page until you complete the examination.';
+        }
+    } else if (count === 2) {
+        if (badge) {
+            badge.textContent = '⚠️ Warning Level 2';
+            badge.style.background = 'rgba(239, 68, 68, 0.2)';
+            badge.style.color = '#ef4444';
+        }
+        if (desc) {
+            desc.textContent = 'Warning! Second violation recorded. Further tab switches will alert the examination administrator.';
+        }
+    } else {
+        if (badge) {
+            badge.textContent = '🚨 High-Risk Alert';
+            badge.style.background = 'rgba(239, 68, 68, 0.35)';
+            badge.style.color = '#ef4444';
+        }
+        if (desc) {
+            desc.textContent = 'High-Risk Alert! Repeated screen exits have been logged and flagged on the administrator live monitoring panel.';
+        }
+    }
+
+    modal.classList.add('active');
+}
+
+function acknowledgeWarning() {
+    const modal = document.getElementById('anti-cheat-warning-modal');
+    if (modal) modal.classList.remove('active');
 }
 
 function escapeHtml(text) {
