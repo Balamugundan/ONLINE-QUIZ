@@ -6,7 +6,7 @@ const CONFIG = {
     // Default Backend URL: auto-detects localhost or uses stored/fallback Render URL
     DEFAULT_API_URL: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
         ? (window.location.port === '5000' ? '' : 'http://127.0.0.1:5000')
-        : (localStorage.getItem('QUIZ_API_URL') || 'https://online-quiz-backend.onrender.com'),
+        : (localStorage.getItem('QUIZ_API_URL') || 'https://online-quiz-259e.onrender.com'),
         
     getApiUrl() {
         return localStorage.getItem('QUIZ_API_URL') || this.DEFAULT_API_URL;
