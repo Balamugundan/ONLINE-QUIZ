@@ -1,6 +1,8 @@
 {
-  "version": 2,
   "cleanUrls": true,
   "trailingSlash": false,
-  "public": "frontend"
+  "rewrites": [
+    { "source": "/", "destination": "/frontend/index.html" },
+    { "source": "/(.*)", "destination": "/frontend/$1" }
+  ]
 }
