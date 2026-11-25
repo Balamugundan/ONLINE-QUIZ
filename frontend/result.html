@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment Results - Online Quiz System</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>">
+    <style>
+        @media print {
+            .navbar, .no-print { display: none !important; }
+            body { background: #fff !important; color: #000 !important; }
+            .result-card { box-shadow: none !important; border: 1px solid #ccc !important; }
+            .score-circle-wrapper { border-color: #6366f1 !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar no-print">
+        <div class="nav-brand">
+            <a href="index.html" style="display: flex; align-items: center; gap: 0.85rem;">
+                <div class="brand-icon" style="background: linear-gradient(135deg, #10b981, #059669);">🏆</div>
+                <span>Assessment Result</span>
+            </a>
+        </div>
+        <div class="nav-actions">
+            <a href="index.html" class="btn btn-secondary btn-sm">Home</a>
+            <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle Theme">
+                🌙
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN RESULT CONTENT -->
+    <main class="main-content">
+
+        <!-- LOADING SPINNER -->
+        <div id="result-loading" style="text-align: center; padding: 5rem 1rem;">
+            <div style="font-size: 3rem; margin-bottom: 1rem; animation: pulse 1s infinite;">📊</div>
+            <h2 style="font-size: 1.5rem; font-weight: 700;">Compiling Your Official Results...</h2>
+            <p style="color: var(--text-secondary);">Calculating scores, accuracy and question stats.</p>
+        </div>
+
+        <!-- RESULT CARD -->
+        <div id="result-card" class="result-card" style="display: none;">
+            <div class="result-celebration-icon" id="celebration-icon">🏆</div>
+            
+            <h1 style="font-size: 2.25rem; font-weight: 800; margin-bottom: 0.5rem;" id="res-student-name">
+                Student Name
+            </h1>
+            <p style="color: var(--text-secondary); font-size: 1.05rem; margin-bottom: 1.5rem;">
+                Register Number: <strong id="res-student-reg" style="color: var(--secondary);">-</strong>
+            </p>
+
+            <!-- Score Circle -->
+            <div class="score-circle-wrapper" id="score-circle">
+                <div class="score-number" id="res-score">0</div>
+                <div class="score-total" id="res-total-marks">out of 25 pts</div>
+            </div>
+
+            <!-- Grade / Performance Status Badge -->
+            <div style="margin-bottom: 2rem;">
+                <span id="res-performance-badge" class="badge badge-success" style="font-size: 1.1rem; padding: 0.5rem 1.25rem;">
+                    Passed with Distinction
+                </span>
+            </div>
+
+            <!-- 4 Breakdown Boxes Grid -->
+            <div class="result-breakdown-grid">
+                <div class="breakdown-box">
+                    <div class="val" id="res-total-q" style="color: var(--primary);">0</div>
+                    <div class="lbl">Total Questions</div>
+                </div>
+                <div class="breakdown-box correct">
+                    <div class="val" id="res-correct">0</div>
+                    <div class="lbl">Correct Answers</div>
+                </div>
+                <div class="breakdown-box wrong">
+                    <div class="val" id="res-wrong">0</div>
+                    <div class="lbl">Wrong Answers</div>
+                </div>
+                <div class="breakdown-box unanswered">
+                    <div class="val" id="res-unanswered">0</div>
+                    <div class="lbl">Unanswered</div>
+                </div>
+                <div class="breakdown-box percentage">
+                    <div class="val" id="res-percentage">0%</div>
+                    <div class="lbl">Percentage</div>
+                </div>
+            </div>
+
+            <!-- Metadata info -->
+            <div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 2.5rem; font-size: 0.88rem; color: var(--text-secondary); display: flex; justify-content: space-around; flex-wrap: wrap; gap: 1rem;">
+                <div>Submission Mode: <strong id="res-submission-mode" style="color: var(--text-primary);">Manual Submission</strong></div>
+                <div>Submission Time: <strong id="res-submission-time" style="color: var(--text-primary);">-</strong></div>
+                <div>Status: <strong id="res-status" style="color: var(--success);">Recorded in Database</strong></div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="no-print" style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+                <button class="btn btn-secondary btn-lg" onclick="window.print()">
+                    🖨️ Print / Save as PDF
+                </button>
+                <a href="index.html" class="btn btn-primary btn-lg">
+                    Return to Portal 🏠
+                </a>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script src="js/config.js"></script>
+    <script src="js/result.js"></script>
+</body>
+</html>

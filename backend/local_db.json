@@ -1,0 +1,968 @@
+{
+  "admins": [
+    {
+      "username": "Admin",
+      "password_hash": "scrypt:32768:8:1$2JcTDN17lHgtEBW4$8c95f062799383c5bb86c825cb3ebf2bc6ca7a0566e65a0e5708d3d4cb406fc2d1072a465887b26b8c40531569e7e070ada8c77615d63aa3e07cadcd5fe62ec2",
+      "created_at": "2026-11-23T17:31:30.558750",
+      "_id": "1633ce3c-e78a-456b-a287-8d47dc2b6ba6"
+    }
+  ],
+  "quiz_settings": [
+    {
+      "type": "main_config",
+      "quiz_title": "Online General & Technical Knowledge Assessment",
+      "quiz_status": "active",
+      "is_enabled": true,
+      "total_duration": 15,
+      "pass_percentage": 50,
+      "instructions": "1. Each question has its own countdown timer. When the timer expires, the quiz automatically moves to the next question.\n2. You cannot extend the question timer once it reaches zero.\n3. Select one option (A, B, C, or D) for each question.\n4. Your chosen answers are saved automatically.\n5. The quiz will automatically submit when the total quiz duration runs out.\n6. Do not refresh or close the browser tab during the test.",
+      "updated_at": "2026-11-23T17:53:43.856920+00:00",
+      "_id": "122f5aee-8986-4a60-98c7-4fc8402dfc84"
+    }
+  ],
+  "questions": [
+    {
+      "question_text": "What does REST stand for in web architecture?",
+      "options": {
+        "A": "Representational State Transfer",
+        "B": "Remote Execution Standard Template",
+        "C": "Rapid Entity Sync Transmission",
+        "D": "Responsive Enterprise Server Tech"
+      },
+      "correct_answer": "A",
+      "marks": 5,
+      "time_limit": 45,
+      "created_at": "2026-11-23T17:31:30.576537",
+      "_id": "c96a4b39-db12-4bb0-baad-b0d499000b54"
+    },
+    {
+      "question_text": "Which HTTP method is typically used to update an existing resource idempotently?",
+      "options": {
+        "A": "GET",
+        "B": "POST",
+        "C": "PUT",
+        "D": "DELETE"
+      },
+      "correct_answer": "C",
+      "marks": 5,
+      "time_limit": 30,
+      "created_at": "2026-11-23T17:31:30.576554",
+      "_id": "83bd0402-612d-4767-8ae4-99bed7d5c366"
+    },
+    {
+      "question_text": "In MongoDB, what is the primary data structure used to store documents?",
+      "options": {
+        "A": "XML",
+        "B": "BSON (Binary JSON)",
+        "C": "CSV",
+        "D": "YAML"
+      },
+      "correct_answer": "B",
+      "marks": 5,
+      "time_limit": 45,
+      "created_at": "2026-11-23T17:31:30.576558",
+      "_id": "d9e4394d-dd6c-4189-b80b-458adfcb4cc3"
+    },
+    {
+      "question_text": "Which of the following JavaScript methods parses a JSON string into an object?",
+      "options": {
+        "A": "JSON.stringify()",
+        "B": "JSON.parse()",
+        "C": "JSON.toObject()",
+        "D": "JSON.decode()"
+      },
+      "correct_answer": "B",
+      "marks": 5,
+      "time_limit": 30,
+      "created_at": "2026-11-23T17:31:30.576562",
+      "_id": "fd1da6c4-ddaa-4ef3-a1ef-51c87e31f410"
+    },
+    {
+      "question_text": "In Flask, which decorator is standardly used to bind a function to a URL route?",
+      "options": {
+        "A": "@app.route()",
+        "B": "@app.bind()",
+        "C": "@app.endpoint()",
+        "D": "@app.listen()"
+      },
+      "correct_answer": "A",
+      "marks": 5,
+      "time_limit": 30,
+      "created_at": "2026-11-23T17:31:30.576565",
+      "_id": "d018b657-cc91-4f20-bd47-2df8d842a977"
+    },
+    {
+      "question_text": "What is Python Flask framework?",
+      "options": {
+        "A": "A micro web framework",
+        "B": "A relational database",
+        "C": "A CSS styling library",
+        "D": "A browser rendering engine"
+      },
+      "correct_answer": "A",
+      "marks": 15,
+      "time_limit": 45,
+      "created_at": "2026-11-23T17:39:55.650273",
+      "updated_at": "2026-11-23T17:39:55.664463",
+      "_id": "49bc5e0e-35f5-43a8-b681-9cbba3c0da40"
+    },
+    {
+      "question_text": "What is Python Flask framework?",
+      "options": {
+        "A": "A micro web framework",
+        "B": "A relational database",
+        "C": "A CSS styling library",
+        "D": "A browser rendering engine"
+      },
+      "correct_answer": "A",
+      "marks": 15,
+      "time_limit": 45,
+      "created_at": "2026-11-23T17:44:42.725202+00:00",
+      "updated_at": "2026-11-23T17:44:42.740157+00:00",
+      "_id": "86f742e8-1b04-48a9-a99a-e6a3e0d042ee"
+    },
+    {
+      "question_text": "What is Python Flask framework?",
+      "options": {
+        "A": "A micro web framework",
+        "B": "A relational database",
+        "C": "A CSS styling library",
+        "D": "A browser rendering engine"
+      },
+      "correct_answer": "A",
+      "marks": 15,
+      "time_limit": 45,
+      "created_at": "2026-11-23T17:46:22.273578+00:00",
+      "updated_at": "2026-11-23T17:46:22.282110+00:00",
+      "_id": "c1108eb9-9870-4562-a6f6-11460511e8c0"
+    }
+  ],
+  "students": [
+    {
+      "name": "Test Student",
+      "register_number": "REG101",
+      "created_at": "2026-11-23T17:31:39.639062",
+      "_id": "4ddb789c-6873-49a1-8a64-ff3a8cbe126a"
+    },
+    {
+      "name": "Jane Doe",
+      "register_number": "REG5001",
+      "created_at": "2026-11-23T17:39:55.678965",
+      "_id": "119855c1-a461-47f8-aae9-d2bd51ad0be1"
+    },
+    {
+      "name": "Jane Doe",
+      "register_number": "REG_9269CC",
+      "created_at": "2026-11-23T17:46:22.290317+00:00",
+      "_id": "fc160450-980e-44eb-adb0-290112a699f2"
+    },
+    {
+      "name": "Balamugundan I",
+      "register_number": "1240120121030",
+      "created_at": "2026-11-23T17:50:54.615001+00:00",
+      "_id": "07f9966b-ccba-41bf-b21c-a951b5eae374"
+    },
+    {
+      "name": "Balamugundan I",
+      "register_number": "124012012103",
+      "created_at": "2026-11-23T17:52:17.623960+00:00",
+      "_id": "5c023537-d0b4-4fb9-bb22-84d239d5d631"
+    },
+    {
+      "name": "vhg",
+      "register_number": "51",
+      "created_at": "2026-11-23T17:55:10.254960+00:00",
+      "_id": "6540b01e-d66e-4a6f-935c-f5348769171c"
+    },
+    {
+      "name": "Balamugundan I",
+      "register_number": "12401201210308",
+      "created_at": "2026-11-24T09:00:27.810353+00:00",
+      "_id": "b7b09de7-0bb5-4178-b97e-1e1e89c41bce"
+    },
+    {
+      "name": "Balamugundan I",
+      "register_number": "54533",
+      "created_at": "2026-11-24T10:41:51.377901+00:00",
+      "_id": "3ec492f4-5aca-424a-85d1-747bc58ed059"
+    }
+  ],
+  "quiz_attempts": [
+    {
+      "student_id": "4ddb789c-6873-49a1-8a64-ff3a8cbe126a",
+      "student_name": "Test Student",
+      "register_number": "REG101",
+      "answers": {
+        "c96a4b39-db12-4bb0-baad-b0d499000b54": "A"
+      },
+      "start_time": "2026-11-23T17:31:39.651232",
+      "submission_time": "2026-11-23T17:31:39.681015",
+      "score": 5,
+      "total_marks": 25,
+      "percentage": 20.0,
+      "status": "completed",
+      "correct_count": 1,
+      "wrong_count": 0,
+      "unanswered_count": 4,
+      "total_questions": 5,
+      "_id": "e4808986-b65b-4302-b26b-5b44e8d84d42",
+      "detailed_results": [
+        {
+          "question_id": "c96a4b39-db12-4bb0-baad-b0d499000b54",
+          "question_text": "What does REST stand for in web architecture?",
+          "options": {
+            "A": "Representational State Transfer",
+            "B": "Remote Execution Standard Template",
+            "C": "Rapid Entity Sync Transmission",
+            "D": "Responsive Enterprise Server Tech"
+          },
+          "student_answer": "A",
+          "correct_answer": "A",
+          "marks": 5,
+          "is_correct": true
+        },
+        {
+          "question_id": "83bd0402-612d-4767-8ae4-99bed7d5c366",
+          "question_text": "Which HTTP method is typically used to update an existing resource idempotently?",
+          "options": {
+            "A": "GET",
+            "B": "POST",
+            "C": "PUT",
+            "D": "DELETE"
+          },
+          "student_answer": null,
+          "correct_answer": "C",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "d9e4394d-dd6c-4189-b80b-458adfcb4cc3",
+          "question_text": "In MongoDB, what is the primary data structure used to store documents?",
+          "options": {
+            "A": "XML",
+            "B": "BSON (Binary JSON)",
+            "C": "CSV",
+            "D": "YAML"
+          },
+          "student_answer": null,
+          "correct_answer": "B",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "fd1da6c4-ddaa-4ef3-a1ef-51c87e31f410",
+          "question_text": "Which of the following JavaScript methods parses a JSON string into an object?",
+          "options": {
+            "A": "JSON.stringify()",
+            "B": "JSON.parse()",
+            "C": "JSON.toObject()",
+            "D": "JSON.decode()"
+          },
+          "student_answer": null,
+          "correct_answer": "B",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "d018b657-cc91-4f20-bd47-2df8d842a977",
+          "question_text": "In Flask, which decorator is standardly used to bind a function to a URL route?",
+          "options": {
+            "A": "@app.route()",
+            "B": "@app.bind()",
+            "C": "@app.endpoint()",
+            "D": "@app.listen()"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 5,
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "student_id": "119855c1-a461-47f8-aae9-d2bd51ad0be1",
+      "student_name": "Jane Doe",
+      "register_number": "REG5001",
+      "answers": {
+        "49bc5e0e-35f5-43a8-b681-9cbba3c0da40": "A"
+      },
+      "start_time": "2026-11-23T17:39:55.693423",
+      "submission_time": "2026-11-23T17:39:55.713541",
+      "score": 15,
+      "total_marks": 40,
+      "percentage": 37.5,
+      "status": "completed",
+      "correct_count": 1,
+      "wrong_count": 0,
+      "unanswered_count": 5,
+      "total_questions": 6,
+      "_id": "9b8f113b-8c3b-4cb4-9e14-39224b9f8d5e",
+      "detailed_results": [
+        {
+          "question_id": "c96a4b39-db12-4bb0-baad-b0d499000b54",
+          "question_text": "What does REST stand for in web architecture?",
+          "options": {
+            "A": "Representational State Transfer",
+            "B": "Remote Execution Standard Template",
+            "C": "Rapid Entity Sync Transmission",
+            "D": "Responsive Enterprise Server Tech"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "83bd0402-612d-4767-8ae4-99bed7d5c366",
+          "question_text": "Which HTTP method is typically used to update an existing resource idempotently?",
+          "options": {
+            "A": "GET",
+            "B": "POST",
+            "C": "PUT",
+            "D": "DELETE"
+          },
+          "student_answer": null,
+          "correct_answer": "C",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "d9e4394d-dd6c-4189-b80b-458adfcb4cc3",
+          "question_text": "In MongoDB, what is the primary data structure used to store documents?",
+          "options": {
+            "A": "XML",
+            "B": "BSON (Binary JSON)",
+            "C": "CSV",
+            "D": "YAML"
+          },
+          "student_answer": null,
+          "correct_answer": "B",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "fd1da6c4-ddaa-4ef3-a1ef-51c87e31f410",
+          "question_text": "Which of the following JavaScript methods parses a JSON string into an object?",
+          "options": {
+            "A": "JSON.stringify()",
+            "B": "JSON.parse()",
+            "C": "JSON.toObject()",
+            "D": "JSON.decode()"
+          },
+          "student_answer": null,
+          "correct_answer": "B",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "d018b657-cc91-4f20-bd47-2df8d842a977",
+          "question_text": "In Flask, which decorator is standardly used to bind a function to a URL route?",
+          "options": {
+            "A": "@app.route()",
+            "B": "@app.bind()",
+            "C": "@app.endpoint()",
+            "D": "@app.listen()"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "49bc5e0e-35f5-43a8-b681-9cbba3c0da40",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": "A",
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": true
+        }
+      ]
+    },
+    {
+      "student_id": "fc160450-980e-44eb-adb0-290112a699f2",
+      "student_name": "Jane Doe",
+      "register_number": "REG_9269CC",
+      "answers": {
+        "c1108eb9-9870-4562-a6f6-11460511e8c0": "A"
+      },
+      "start_time": "2026-11-23T17:46:22.304749+00:00",
+      "submission_time": "2026-11-23T17:46:22.324080+00:00",
+      "score": 15,
+      "total_marks": 70,
+      "percentage": 21.43,
+      "status": "completed",
+      "correct_count": 1,
+      "wrong_count": 0,
+      "unanswered_count": 7,
+      "total_questions": 8,
+      "_id": "4d56c043-2ba9-4c1a-816c-d37804bc99d2",
+      "detailed_results": [
+        {
+          "question_id": "c96a4b39-db12-4bb0-baad-b0d499000b54",
+          "question_text": "What does REST stand for in web architecture?",
+          "options": {
+            "A": "Representational State Transfer",
+            "B": "Remote Execution Standard Template",
+            "C": "Rapid Entity Sync Transmission",
+            "D": "Responsive Enterprise Server Tech"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "83bd0402-612d-4767-8ae4-99bed7d5c366",
+          "question_text": "Which HTTP method is typically used to update an existing resource idempotently?",
+          "options": {
+            "A": "GET",
+            "B": "POST",
+            "C": "PUT",
+            "D": "DELETE"
+          },
+          "student_answer": null,
+          "correct_answer": "C",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "d9e4394d-dd6c-4189-b80b-458adfcb4cc3",
+          "question_text": "In MongoDB, what is the primary data structure used to store documents?",
+          "options": {
+            "A": "XML",
+            "B": "BSON (Binary JSON)",
+            "C": "CSV",
+            "D": "YAML"
+          },
+          "student_answer": null,
+          "correct_answer": "B",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "fd1da6c4-ddaa-4ef3-a1ef-51c87e31f410",
+          "question_text": "Which of the following JavaScript methods parses a JSON string into an object?",
+          "options": {
+            "A": "JSON.stringify()",
+            "B": "JSON.parse()",
+            "C": "JSON.toObject()",
+            "D": "JSON.decode()"
+          },
+          "student_answer": null,
+          "correct_answer": "B",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "d018b657-cc91-4f20-bd47-2df8d842a977",
+          "question_text": "In Flask, which decorator is standardly used to bind a function to a URL route?",
+          "options": {
+            "A": "@app.route()",
+            "B": "@app.bind()",
+            "C": "@app.endpoint()",
+            "D": "@app.listen()"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "49bc5e0e-35f5-43a8-b681-9cbba3c0da40",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": false
+        },
+        {
+          "question_id": "86f742e8-1b04-48a9-a99a-e6a3e0d042ee",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": false
+        },
+        {
+          "question_id": "c1108eb9-9870-4562-a6f6-11460511e8c0",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": "A",
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": true
+        }
+      ]
+    },
+    {
+      "student_id": "07f9966b-ccba-41bf-b21c-a951b5eae374",
+      "student_name": "Balamugundan I",
+      "register_number": "1240120121030",
+      "answers": {
+        "c96a4b39-db12-4bb0-baad-b0d499000b54": "D"
+      },
+      "start_time": "2026-11-23T17:51:33.120977+00:00",
+      "submission_time": "2026-11-23T17:51:44.372137+00:00",
+      "score": 0,
+      "total_marks": 70,
+      "percentage": 0.0,
+      "status": "completed",
+      "correct_count": 0,
+      "wrong_count": 1,
+      "unanswered_count": 7,
+      "total_questions": 8,
+      "_id": "9beba7d0-b84c-40f0-8487-0623fb0b3702",
+      "detailed_results": [
+        {
+          "question_id": "c96a4b39-db12-4bb0-baad-b0d499000b54",
+          "question_text": "What does REST stand for in web architecture?",
+          "options": {
+            "A": "Representational State Transfer",
+            "B": "Remote Execution Standard Template",
+            "C": "Rapid Entity Sync Transmission",
+            "D": "Responsive Enterprise Server Tech"
+          },
+          "student_answer": "D",
+          "correct_answer": "A",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "83bd0402-612d-4767-8ae4-99bed7d5c366",
+          "question_text": "Which HTTP method is typically used to update an existing resource idempotently?",
+          "options": {
+            "A": "GET",
+            "B": "POST",
+            "C": "PUT",
+            "D": "DELETE"
+          },
+          "student_answer": null,
+          "correct_answer": "C",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "d9e4394d-dd6c-4189-b80b-458adfcb4cc3",
+          "question_text": "In MongoDB, what is the primary data structure used to store documents?",
+          "options": {
+            "A": "XML",
+            "B": "BSON (Binary JSON)",
+            "C": "CSV",
+            "D": "YAML"
+          },
+          "student_answer": null,
+          "correct_answer": "B",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "fd1da6c4-ddaa-4ef3-a1ef-51c87e31f410",
+          "question_text": "Which of the following JavaScript methods parses a JSON string into an object?",
+          "options": {
+            "A": "JSON.stringify()",
+            "B": "JSON.parse()",
+            "C": "JSON.toObject()",
+            "D": "JSON.decode()"
+          },
+          "student_answer": null,
+          "correct_answer": "B",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "d018b657-cc91-4f20-bd47-2df8d842a977",
+          "question_text": "In Flask, which decorator is standardly used to bind a function to a URL route?",
+          "options": {
+            "A": "@app.route()",
+            "B": "@app.bind()",
+            "C": "@app.endpoint()",
+            "D": "@app.listen()"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "49bc5e0e-35f5-43a8-b681-9cbba3c0da40",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": false
+        },
+        {
+          "question_id": "86f742e8-1b04-48a9-a99a-e6a3e0d042ee",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": false
+        },
+        {
+          "question_id": "c1108eb9-9870-4562-a6f6-11460511e8c0",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "student_id": "5c023537-d0b4-4fb9-bb22-84d239d5d631",
+      "student_name": "Balamugundan I",
+      "register_number": "124012012103",
+      "answers": {
+        "c96a4b39-db12-4bb0-baad-b0d499000b54": "C",
+        "83bd0402-612d-4767-8ae4-99bed7d5c366": "C",
+        "d9e4394d-dd6c-4189-b80b-458adfcb4cc3": "B",
+        "fd1da6c4-ddaa-4ef3-a1ef-51c87e31f410": "D",
+        "d018b657-cc91-4f20-bd47-2df8d842a977": "B",
+        "49bc5e0e-35f5-43a8-b681-9cbba3c0da40": "D",
+        "86f742e8-1b04-48a9-a99a-e6a3e0d042ee": "C",
+        "c1108eb9-9870-4562-a6f6-11460511e8c0": "D"
+      },
+      "start_time": "2026-11-23T17:52:22.224363+00:00",
+      "submission_time": "2026-11-23T17:52:51.538614+00:00",
+      "score": 10,
+      "total_marks": 70,
+      "percentage": 14.29,
+      "status": "completed",
+      "correct_count": 2,
+      "wrong_count": 6,
+      "unanswered_count": 0,
+      "total_questions": 8,
+      "_id": "9f9b6077-d295-481a-9a80-5de906bfabf2",
+      "detailed_results": [
+        {
+          "question_id": "c96a4b39-db12-4bb0-baad-b0d499000b54",
+          "question_text": "What does REST stand for in web architecture?",
+          "options": {
+            "A": "Representational State Transfer",
+            "B": "Remote Execution Standard Template",
+            "C": "Rapid Entity Sync Transmission",
+            "D": "Responsive Enterprise Server Tech"
+          },
+          "student_answer": "C",
+          "correct_answer": "A",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "83bd0402-612d-4767-8ae4-99bed7d5c366",
+          "question_text": "Which HTTP method is typically used to update an existing resource idempotently?",
+          "options": {
+            "A": "GET",
+            "B": "POST",
+            "C": "PUT",
+            "D": "DELETE"
+          },
+          "student_answer": "C",
+          "correct_answer": "C",
+          "marks": 5,
+          "is_correct": true
+        },
+        {
+          "question_id": "d9e4394d-dd6c-4189-b80b-458adfcb4cc3",
+          "question_text": "In MongoDB, what is the primary data structure used to store documents?",
+          "options": {
+            "A": "XML",
+            "B": "BSON (Binary JSON)",
+            "C": "CSV",
+            "D": "YAML"
+          },
+          "student_answer": "B",
+          "correct_answer": "B",
+          "marks": 5,
+          "is_correct": true
+        },
+        {
+          "question_id": "fd1da6c4-ddaa-4ef3-a1ef-51c87e31f410",
+          "question_text": "Which of the following JavaScript methods parses a JSON string into an object?",
+          "options": {
+            "A": "JSON.stringify()",
+            "B": "JSON.parse()",
+            "C": "JSON.toObject()",
+            "D": "JSON.decode()"
+          },
+          "student_answer": "D",
+          "correct_answer": "B",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "d018b657-cc91-4f20-bd47-2df8d842a977",
+          "question_text": "In Flask, which decorator is standardly used to bind a function to a URL route?",
+          "options": {
+            "A": "@app.route()",
+            "B": "@app.bind()",
+            "C": "@app.endpoint()",
+            "D": "@app.listen()"
+          },
+          "student_answer": "B",
+          "correct_answer": "A",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "49bc5e0e-35f5-43a8-b681-9cbba3c0da40",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": "D",
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": false
+        },
+        {
+          "question_id": "86f742e8-1b04-48a9-a99a-e6a3e0d042ee",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": "C",
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": false
+        },
+        {
+          "question_id": "c1108eb9-9870-4562-a6f6-11460511e8c0",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": "D",
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "student_id": "6540b01e-d66e-4a6f-935c-f5348769171c",
+      "student_name": "vhg",
+      "register_number": "51",
+      "answers": {},
+      "start_time": "2026-11-23T17:55:12.980204+00:00",
+      "submission_time": null,
+      "score": 0,
+      "total_marks": 70,
+      "percentage": 0,
+      "status": "in_progress",
+      "correct_count": 0,
+      "wrong_count": 0,
+      "unanswered_count": 8,
+      "total_questions": 8,
+      "_id": "7ddaca4c-2b90-4e4f-b21f-78590d2897d1"
+    },
+    {
+      "student_id": "b7b09de7-0bb5-4178-b97e-1e1e89c41bce",
+      "student_name": "Balamugundan I",
+      "register_number": "12401201210308",
+      "answers": {
+        "c96a4b39-db12-4bb0-baad-b0d499000b54": "A",
+        "83bd0402-612d-4767-8ae4-99bed7d5c366": "B",
+        "d9e4394d-dd6c-4189-b80b-458adfcb4cc3": "C",
+        "fd1da6c4-ddaa-4ef3-a1ef-51c87e31f410": "A",
+        "d018b657-cc91-4f20-bd47-2df8d842a977": "A",
+        "49bc5e0e-35f5-43a8-b681-9cbba3c0da40": "A",
+        "86f742e8-1b04-48a9-a99a-e6a3e0d042ee": "A",
+        "c1108eb9-9870-4562-a6f6-11460511e8c0": "A"
+      },
+      "start_time": "2026-11-24T09:00:33.244526+00:00",
+      "submission_time": "2026-11-24T09:01:49.479108+00:00",
+      "score": 55,
+      "total_marks": 70,
+      "percentage": 78.57,
+      "status": "completed",
+      "correct_count": 5,
+      "wrong_count": 3,
+      "unanswered_count": 0,
+      "total_questions": 8,
+      "_id": "7babb545-6fa4-4936-9485-0229cf4fe6e6",
+      "detailed_results": [
+        {
+          "question_id": "c96a4b39-db12-4bb0-baad-b0d499000b54",
+          "question_text": "What does REST stand for in web architecture?",
+          "options": {
+            "A": "Representational State Transfer",
+            "B": "Remote Execution Standard Template",
+            "C": "Rapid Entity Sync Transmission",
+            "D": "Responsive Enterprise Server Tech"
+          },
+          "student_answer": "A",
+          "correct_answer": "A",
+          "marks": 5,
+          "is_correct": true
+        },
+        {
+          "question_id": "83bd0402-612d-4767-8ae4-99bed7d5c366",
+          "question_text": "Which HTTP method is typically used to update an existing resource idempotently?",
+          "options": {
+            "A": "GET",
+            "B": "POST",
+            "C": "PUT",
+            "D": "DELETE"
+          },
+          "student_answer": "B",
+          "correct_answer": "C",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "d9e4394d-dd6c-4189-b80b-458adfcb4cc3",
+          "question_text": "In MongoDB, what is the primary data structure used to store documents?",
+          "options": {
+            "A": "XML",
+            "B": "BSON (Binary JSON)",
+            "C": "CSV",
+            "D": "YAML"
+          },
+          "student_answer": "C",
+          "correct_answer": "B",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "fd1da6c4-ddaa-4ef3-a1ef-51c87e31f410",
+          "question_text": "Which of the following JavaScript methods parses a JSON string into an object?",
+          "options": {
+            "A": "JSON.stringify()",
+            "B": "JSON.parse()",
+            "C": "JSON.toObject()",
+            "D": "JSON.decode()"
+          },
+          "student_answer": "A",
+          "correct_answer": "B",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "d018b657-cc91-4f20-bd47-2df8d842a977",
+          "question_text": "In Flask, which decorator is standardly used to bind a function to a URL route?",
+          "options": {
+            "A": "@app.route()",
+            "B": "@app.bind()",
+            "C": "@app.endpoint()",
+            "D": "@app.listen()"
+          },
+          "student_answer": "A",
+          "correct_answer": "A",
+          "marks": 5,
+          "is_correct": true
+        },
+        {
+          "question_id": "49bc5e0e-35f5-43a8-b681-9cbba3c0da40",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": "A",
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": true
+        },
+        {
+          "question_id": "86f742e8-1b04-48a9-a99a-e6a3e0d042ee",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": "A",
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": true
+        },
+        {
+          "question_id": "c1108eb9-9870-4562-a6f6-11460511e8c0",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": "A",
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": true
+        }
+      ]
+    },
+    {
+      "student_id": "3ec492f4-5aca-424a-85d1-747bc58ed059",
+      "student_name": "Balamugundan I",
+      "register_number": "54533",
+      "answers": {},
+      "start_time": "2026-11-24T10:42:00.616467+00:00",
+      "submission_time": null,
+      "score": 0,
+      "total_marks": 70,
+      "percentage": 0,
+      "status": "in_progress",
+      "correct_count": 0,
+      "wrong_count": 0,
+      "unanswered_count": 8,
+      "total_questions": 8,
+      "_id": "55579f05-80fd-4a78-a03d-8f7d6f401848"
+    }
+  ]
+}

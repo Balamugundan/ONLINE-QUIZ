@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Online Quiz Management</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="nav-brand">
+            <a href="index.html" style="display: flex; align-items: center; gap: 0.85rem;">
+                <div class="brand-icon" style="background: linear-gradient(135deg, var(--accent), var(--primary));">🛡️</div>
+                <span>Admin Console</span>
+            </a>
+        </div>
+        <div class="nav-actions">
+            <span id="admin-badge" class="badge badge-primary" style="display: none; padding: 0.35rem 0.85rem; font-size: 0.85rem;">
+                👤 <span id="admin-user-display">Admin</span>
+            </span>
+            <button id="admin-logout-btn" class="btn btn-outline-danger btn-sm" style="display: none;" onclick="logoutAdmin()">
+                Logout 🚪
+            </button>
+            <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle Theme">
+                🌙
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="main-content">
+
+        <!-- ==============================================
+             1. ADMIN LOGIN VIEW (Shown when unauthenticated)
+             ============================================== -->
+        <section id="admin-login-view" class="auth-card" style="display: none;">
+            <div class="auth-header">
+                <div class="auth-icon">🔐</div>
+                <h2 style="font-size: 1.85rem; font-weight: 800; margin-bottom: 0.5rem;">Admin Sign In</h2>
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                    Sign in to access quiz configurations, questions and student performance.
+                </p>
+            </div>
+
+            <form id="admin-login-form" onsubmit="handleAdminLogin(event)">
+                <div class="form-group">
+                    <label class="form-label" for="login-username">Admin Username</label>
+                    <input type="text" id="login-username" class="form-input" required placeholder="Default: Admin" autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="login-password">Admin Password</label>
+                    <input type="password" id="login-password" class="form-input" required placeholder="Default: Admin@01" autocomplete="current-password">
+                </div>
+                <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1.5rem; background: var(--bg-surface); padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                    💡 <strong>Default Admin Credentials:</strong><br>
+                    Username: <code>Admin</code> | Password: <code>Admin@01</code>
+                </div>
+                <button type="submit" id="login-submit-btn" class="btn btn-primary btn-lg" style="width: 100%;">
+                    <span>Login to Dashboard</span>
+                    <span>→</span>
+                </button>
+            </form>
+        </section>
+
+        <!-- ==============================================
+             2. ADMIN DASHBOARD VIEW (Shown when authenticated)
+             ============================================== -->
+        <section id="admin-dashboard-view" style="display: none;">
+            
+            <!-- Dashboard Header Bar -->
+            <div class="admin-header">
+                <div class="admin-title-box">
+                    <h1>Administrator Dashboard</h1>
+                    <p>Manage quiz questions, control timers, adjust settings, and evaluate student submissions.</p>
+                </div>
+                <div style="display: flex; gap: 0.75rem; align-items: center;">
+                    <div id="quiz-live-status-badge" class="badge badge-success" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
+                        Status: Active
+                    </div>
+                    <button class="btn btn-primary" onclick="openAddQuestionModal()">
+                        <span>+ Add Question</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <div class="admin-nav-tabs">
+                <button class="tab-btn active" onclick="switchAdminTab('overview')">
+                    📊 Overview
+                </button>
+                <button class="tab-btn" onclick="switchAdminTab('questions')">
+                    📝 Questions Management (<span id="tab-questions-count">0</span>)
+                </button>
+                <button class="tab-btn" onclick="switchAdminTab('settings')">
+                    ⚙️ Quiz Settings
+                </button>
+                <button class="tab-btn" onclick="switchAdminTab('results')">
+                    🎓 Student Results (<span id="tab-results-count">0</span>)
+                </button>
+            </div>
+
+            <!-- TAB 1: OVERVIEW -->
+            <div id="tab-overview" class="admin-tab-content active">
+                <!-- Stat Cards Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon indigo">📝</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="stat-total-questions">0</div>
+                            <div class="stat-label">Total Questions</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon cyan">👨‍🎓</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="stat-total-students">0</div>
+                            <div class="stat-label">Registered Students</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon emerald">🎯</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="stat-total-attempts">0</div>
+                            <div class="stat-label">Total Quiz Attempts</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon amber">📈</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="stat-avg-score">0%</div>
+                            <div class="stat-label">Average Score</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Controls & Recent Activity -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                    <!-- Quick Quiz Controls -->
+                    <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.75rem;">
+                        <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1rem;">⚡ Quick Quiz Controls</h3>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
+                            Instantly start or stop the quiz for all students, or disable access entirely.
+                        </p>
+                        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                            <button class="btn btn-success" onclick="quickUpdateQuizStatus('active')">
+                                ▶️ Start Quiz
+                            </button>
+                            <button class="btn btn-outline-danger" onclick="quickUpdateQuizStatus('stopped')">
+                                ⏹️ Stop Quiz
+                            </button>
+                            <button class="btn btn-secondary" onclick="quickUpdateQuizStatus('disabled')">
+                                🚫 Disable Quiz
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- System Status Info -->
+                    <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.75rem;">
+                        <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1rem;">⏱️ Current Quiz Limits</h3>
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.92rem;">
+                            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+                                <span style="color: var(--text-secondary);">Overall Quiz Duration:</span>
+                                <strong id="overview-duration-display">15 Minutes</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+                                <span style="color: var(--text-secondary);">Individual Question Timers:</span>
+                                <strong style="color: var(--primary);">Active per Question</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+                                <span style="color: var(--text-secondary);">Total Marks Configured:</span>
+                                <strong id="overview-total-marks">25 Marks</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: QUESTIONS MANAGEMENT -->
+            <div id="tab-questions" class="admin-tab-content">
+                <div class="table-container">
+                    <div class="table-header-bar">
+                        <div style="font-size: 1.1rem; font-weight: 700;">All Quiz Questions</div>
+                        <div style="display: flex; gap: 0.75rem;">
+                            <button class="btn btn-primary btn-sm" onclick="openAddQuestionModal()">
+                                + Add New Question
+                            </button>
+                        </div>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50px;">#</th>
+                                    <th>Question Text</th>
+                                    <th>Options</th>
+                                    <th style="width: 90px;">Correct</th>
+                                    <th style="width: 80px;">Marks</th>
+                                    <th style="width: 90px;">Timer</th>
+                                    <th style="width: 140px; text-align: right;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="questions-table-body">
+                                <tr>
+                                    <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                                        Loading questions...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: QUIZ SETTINGS -->
+            <div id="tab-settings" class="admin-tab-content">
+                <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 2.25rem; max-width: 780px;">
+                    <h3 style="font-size: 1.35rem; font-weight: 700; margin-bottom: 1.5rem;">Quiz Configuration & Availability</h3>
+                    
+                    <form id="quiz-settings-form" onsubmit="handleSaveSettings(event)">
+                        <div class="form-group">
+                            <label class="form-label" for="settings-title">Quiz Title</label>
+                            <input type="text" id="settings-title" class="form-input" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="settings-status">Quiz Status</label>
+                            <select id="settings-status" class="form-select">
+                                <option value="active">Active (Students can take quiz)</option>
+                                <option value="stopped">Stopped (Temporarily suspended)</option>
+                                <option value="disabled">Disabled (Quiz closed)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="settings-duration">Overall Quiz Duration (in Minutes)</label>
+                            <input type="number" id="settings-duration" class="form-input" min="1" max="180" required>
+                            <small style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 0.25rem; display: block;">
+                                Quiz will automatically submit when this total duration expires.
+                            </small>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="settings-pass-percent">Pass Percentage (%)</label>
+                            <input type="number" id="settings-pass-percent" class="form-input" min="1" max="100" value="50">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="settings-instructions">Student Quiz Instructions</label>
+                            <textarea id="settings-instructions" class="form-textarea" rows="6" placeholder="Enter instructions for students..."></textarea>
+                        </div>
+
+                        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                Save Quiz Settings 💾
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- TAB 4: STUDENT RESULTS -->
+            <div id="tab-results" class="admin-tab-content">
+                <div class="table-container">
+                    <div class="table-header-bar">
+                        <div style="font-size: 1.1rem; font-weight: 700;">Student Participation & Results</div>
+                        <div style="display: flex; gap: 0.75rem; align-items: center;">
+                            <input type="text" id="results-search-input" class="form-input" placeholder="Search by name or reg no..." style="padding: 0.4rem 0.75rem; font-size: 0.85rem; width: 240px;" oninput="filterResultsTable()">
+                            <button class="btn btn-secondary btn-sm" onclick="loadAdminResults()">
+                                🔄 Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>Register No</th>
+                                    <th>Total Qs</th>
+                                    <th>Correct</th>
+                                    <th>Wrong</th>
+                                    <th>Unanswered</th>
+                                    <th>Score</th>
+                                    <th>Percentage</th>
+                                    <th>Status</th>
+                                    <th>Submitted At</th>
+                                    <th style="text-align: right;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="results-table-body">
+                                <tr>
+                                    <td colspan="11" style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                                        Loading student results...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- ==============================================
+         ADD / EDIT QUESTION MODAL
+         ============================================== -->
+    <div id="question-modal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 class="modal-title" id="question-modal-title">Add New Question</h3>
+                <button class="modal-close-btn" onclick="closeQuestionModal()">&times;</button>
+            </div>
+            <form id="question-form" onsubmit="handleSaveQuestion(event)">
+                <input type="hidden" id="edit-question-id" value="">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label" for="q-text">Question Text *</label>
+                        <textarea id="q-text" class="form-textarea" rows="3" required placeholder="Type the question here..."></textarea>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label" for="opt-a">Option A *</label>
+                            <input type="text" id="opt-a" class="form-input" required placeholder="Enter option A">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="opt-b">Option B *</label>
+                            <input type="text" id="opt-b" class="form-input" required placeholder="Enter option B">
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label" for="opt-c">Option C *</label>
+                            <input type="text" id="opt-c" class="form-input" required placeholder="Enter option C">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="opt-d">Option D *</label>
+                            <input type="text" id="opt-d" class="form-input" required placeholder="Enter option D">
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label" for="correct-opt">Correct Answer *</label>
+                            <select id="correct-opt" class="form-select" required>
+                                <option value="A">Option A</option>
+                                <option value="B">Option B</option>
+                                <option value="C">Option C</option>
+                                <option value="D">Option D</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="q-marks">Marks *</label>
+                            <input type="number" id="q-marks" class="form-input" min="1" max="100" value="5" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="q-timer">Timer (Seconds) *</label>
+                            <input type="number" id="q-timer" class="form-input" min="5" max="300" value="30" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeQuestionModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="save-question-btn">Save Question</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==============================================
+         STUDENT RESULT DETAIL MODAL
+         ============================================== -->
+    <div id="result-detail-modal" class="modal-overlay">
+        <div class="modal-box" style="max-width: 780px;">
+            <div class="modal-header">
+                <h3 class="modal-title">Student Performance Breakdown</h3>
+                <button class="modal-close-btn" onclick="closeResultDetailModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="result-detail-header" style="background: var(--bg-card); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); margin-bottom: 1.5rem;">
+                    <!-- Filled dynamically -->
+                </div>
+                <h4 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem;">Question-by-Question Evaluation</h4>
+                <div id="result-detail-list" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <!-- Questions list -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeResultDetailModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

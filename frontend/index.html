@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Quiz Management System</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="nav-brand">
+            <div class="brand-icon">🎓</div>
+            <span>Online Quiz System</span>
+        </div>
+        <div class="nav-actions">
+            <div id="quiz-status-pill" class="status-indicator active">
+                <span class="status-dot"></span>
+                <span id="quiz-status-text">Quiz Active</span>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="openApiModal()" title="API Settings">
+                ⚙️ API
+            </button>
+            <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle Theme">
+                🌙
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN HERO CONTENT -->
+    <main class="main-content">
+        <section class="hero-section">
+            <div class="hero-pill">
+                <span>⚡ Next-Gen Assessment Platform</span>
+            </div>
+            <h1 class="hero-title">
+                Smart, Timed & Modern <span>Online Quiz Portal</span>
+            </h1>
+            <p class="hero-subtitle">
+                A seamless assessment management system with per-question timers, instant server-side grading, and separate portals for Admins and Students.
+            </p>
+        </section>
+
+        <!-- PORTAL SELECT CARDS -->
+        <div class="portal-grid">
+            <!-- Student Portal Card -->
+            <div class="portal-card portal-card-student">
+                <div>
+                    <div class="portal-icon-wrapper">
+                        👨‍🎓
+                    </div>
+                    <h2 class="portal-card-title">Student Portal</h2>
+                    <p class="portal-card-desc">
+                        Enter with your Full Name and Register Number. Experience real-time question timers, autosaved answers, and instant results upon completion.
+                    </p>
+                </div>
+                <a href="student.html" class="btn btn-primary btn-lg" style="width: 100%;">
+                    <span>Enter Quiz Portal</span>
+                    <span>→</span>
+                </a>
+            </div>
+
+            <!-- Admin Portal Card -->
+            <div class="portal-card portal-card-admin">
+                <div>
+                    <div class="portal-icon-wrapper" style="background: rgba(139, 92, 246, 0.15); color: var(--accent);">
+                        🛡️
+                    </div>
+                    <h2 class="portal-card-title">Admin Dashboard</h2>
+                    <p class="portal-card-desc">
+                        Manage questions, configure individual timers, control quiz availability, review student scores, and inspect detailed performance analytics.
+                    </p>
+                </div>
+                <a href="admin.html" class="btn btn-secondary btn-lg" style="width: 100%;">
+                    <span>Access Admin Panel</span>
+                    <span>🔒</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- HIGHLIGHT FEATURES -->
+        <div style="margin-top: 4.5rem; text-align: center;">
+            <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 2rem;">
+                Core Platform Capabilities
+            </h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; max-width: 1050px; margin: 0 auto;">
+                <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.5rem; text-align: left;">
+                    <div style="font-size: 1.75rem; margin-bottom: 0.5rem;">⏱️</div>
+                    <h4 style="font-weight: 700; margin-bottom: 0.25rem;">Question Timers</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Each question has an individual countdown timer that auto-advances when finished.</p>
+                </div>
+                <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.5rem; text-align: left;">
+                    <div style="font-size: 1.75rem; margin-bottom: 0.5rem;">🔒</div>
+                    <h4 style="font-weight: 700; margin-bottom: 0.25rem;">Server-Side Grading</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Correct answers are never leaked to client browsers. Scored strictly on Python backend.</p>
+                </div>
+                <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.5rem; text-align: left;">
+                    <div style="font-size: 1.75rem; margin-bottom: 0.5rem;">💾</div>
+                    <h4 style="font-weight: 700; margin-bottom: 0.25rem;">MongoDB Persistence</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">All questions, student registrations, answers, and result metrics stored reliably.</p>
+                </div>
+                <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.5rem; text-align: left;">
+                    <div style="font-size: 1.75rem; margin-bottom: 0.5rem;">📊</div>
+                    <h4 style="font-weight: 700; margin-bottom: 0.25rem;">Live Analytics</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Real-time metrics, participation tracking, and individual student answer breakdowns.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- API CONFIG MODAL -->
+    <div id="api-modal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 class="modal-title">⚙️ Backend API Configuration</h3>
+                <button class="modal-close-btn" onclick="closeApiModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+                    Configure the backend REST API endpoint. For local development, leave blank or use <code>http://127.0.0.1:5000</code>. For Render hosting, paste your Render backend URL.
+                </p>
+                <div class="form-group">
+                    <label class="form-label" for="api-url-input">API Base URL</label>
+                    <input type="text" id="api-url-input" class="form-input" placeholder="http://127.0.0.1:5000 or https://your-app.onrender.com">
+                </div>
+                <div id="api-status-msg" style="font-size: 0.85rem; margin-top: 0.5rem;"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="testApiConnection()">Test Connection</button>
+                <button class="btn btn-primary" onclick="saveApiUrl()">Save Configuration</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script>
+        async function checkQuizStatus() {
+            try {
+                const res = await apiRequest('/api/quiz/settings');
+                const pill = document.getElementById('quiz-status-pill');
+                const text = document.getElementById('quiz-status-text');
+                if (res.data.quiz_status === 'active') {
+                    pill.className = 'status-indicator active';
+                    text.textContent = 'Quiz Active';
+                } else {
+                    pill.className = 'status-indicator stopped';
+                    text.textContent = 'Quiz ' + res.data.quiz_status.toUpperCase();
+                }
+            } catch (e) {
+                const pill = document.getElementById('quiz-status-pill');
+                const text = document.getElementById('quiz-status-text');
+                pill.className = 'status-indicator stopped';
+                text.textContent = 'Backend Offline';
+            }
+        }
+
+        function openApiModal() {
+            document.getElementById('api-url-input').value = CONFIG.getApiUrl();
+            document.getElementById('api-status-msg').textContent = '';
+            document.getElementById('api-modal').classList.add('active');
+        }
+
+        function closeApiModal() {
+            document.getElementById('api-modal').classList.remove('active');
+        }
+
+        async function testApiConnection() {
+            const url = document.getElementById('api-url-input').value.trim().replace(/\/+$/, '');
+            const msg = document.getElementById('api-status-msg');
+            msg.innerHTML = '<span style="color: var(--warning);">⏳ Connecting...</span>';
+            try {
+                const target = url ? `${url}/api/health` : '/api/health';
+                const res = await fetch(target);
+                const data = await res.json();
+                if (data.status === 'online') {
+                    msg.innerHTML = '<span style="color: var(--success);">✓ Connected successfully to: ' + data.service + '</span>';
+                } else {
+                    msg.innerHTML = '<span style="color: var(--danger);">✕ Invalid response from server</span>';
+                }
+            } catch (err) {
+                msg.innerHTML = '<span style="color: var(--danger);">✕ Connection failed: ' + err.message + '</span>';
+            }
+        }
+
+        function saveApiUrl() {
+            const val = document.getElementById('api-url-input').value.trim();
+            CONFIG.setApiUrl(val);
+            showToast('API URL saved successfully', 'success');
+            closeApiModal();
+            checkQuizStatus();
+        }
+
+        document.addEventListener('DOMContentLoaded', checkQuizStatus);
+    </script>
+</body>
+</html>
