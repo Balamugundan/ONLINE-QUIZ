@@ -135,6 +135,51 @@
       "created_at": "2026-11-23T17:46:22.273578+00:00",
       "updated_at": "2026-11-23T17:46:22.282110+00:00",
       "_id": "c1108eb9-9870-4562-a6f6-11460511e8c0"
+    },
+    {
+      "question_text": "What is Python Flask framework?",
+      "options": {
+        "A": "A micro web framework",
+        "B": "A relational database",
+        "C": "A CSS styling library",
+        "D": "A browser rendering engine"
+      },
+      "correct_answer": "A",
+      "marks": 15,
+      "time_limit": 45,
+      "created_at": "2026-11-26T04:38:40.353442+00:00",
+      "updated_at": "2026-11-26T04:38:40.356844+00:00",
+      "_id": "4d92f68f-40f9-49ac-b49c-1c4e4cfc8e89"
+    },
+    {
+      "question_text": "What is Python Flask framework?",
+      "options": {
+        "A": "A micro web framework",
+        "B": "A relational database",
+        "C": "A CSS styling library",
+        "D": "A browser rendering engine"
+      },
+      "correct_answer": "A",
+      "marks": 15,
+      "time_limit": 45,
+      "created_at": "2026-11-26T04:49:01.665632+00:00",
+      "updated_at": "2026-11-26T04:49:01.669706+00:00",
+      "_id": "480a6d9e-7c18-4542-8f0e-055a083a117f"
+    },
+    {
+      "question_text": "What is Python Flask framework?",
+      "options": {
+        "A": "A micro web framework",
+        "B": "A relational database",
+        "C": "A CSS styling library",
+        "D": "A browser rendering engine"
+      },
+      "correct_answer": "A",
+      "marks": 15,
+      "time_limit": 45,
+      "created_at": "2026-11-26T04:50:47.069287+00:00",
+      "updated_at": "2026-11-26T04:50:47.075286+00:00",
+      "_id": "cc8c28a6-9ae2-4c48-a4b8-7864f7b04e67"
     }
   ],
   "students": [
@@ -142,49 +187,218 @@
       "name": "Test Student",
       "register_number": "REG101",
       "created_at": "2026-11-23T17:31:39.639062",
-      "_id": "4ddb789c-6873-49a1-8a64-ff3a8cbe126a"
+      "_id": "4ddb789c-6873-49a1-8a64-ff3a8cbe126a",
+      "quiz_status": "completed",
+      "attempt_id": "e4808986-b65b-4302-b26b-5b44e8d84d42",
+      "score": 5,
+      "percentage": 20.0,
+      "submission_time": "2026-11-23T17:31:39.681015"
     },
     {
       "name": "Jane Doe",
       "register_number": "REG5001",
       "created_at": "2026-11-23T17:39:55.678965",
-      "_id": "119855c1-a461-47f8-aae9-d2bd51ad0be1"
+      "_id": "119855c1-a461-47f8-aae9-d2bd51ad0be1",
+      "quiz_status": "completed",
+      "attempt_id": "9b8f113b-8c3b-4cb4-9e14-39224b9f8d5e",
+      "score": 15,
+      "percentage": 37.5,
+      "submission_time": "2026-11-23T17:39:55.713541"
     },
     {
       "name": "Jane Doe",
       "register_number": "REG_9269CC",
       "created_at": "2026-11-23T17:46:22.290317+00:00",
-      "_id": "fc160450-980e-44eb-adb0-290112a699f2"
+      "_id": "fc160450-980e-44eb-adb0-290112a699f2",
+      "quiz_status": "completed",
+      "attempt_id": "4d56c043-2ba9-4c1a-816c-d37804bc99d2",
+      "score": 15,
+      "percentage": 21.43,
+      "submission_time": "2026-11-23T17:46:22.324080+00:00"
     },
     {
       "name": "Balamugundan I",
       "register_number": "1240120121030",
       "created_at": "2026-11-23T17:50:54.615001+00:00",
-      "_id": "07f9966b-ccba-41bf-b21c-a951b5eae374"
+      "_id": "07f9966b-ccba-41bf-b21c-a951b5eae374",
+      "quiz_status": "completed",
+      "attempt_id": "9beba7d0-b84c-40f0-8487-0623fb0b3702",
+      "score": 0,
+      "percentage": 0.0,
+      "submission_time": "2026-11-23T17:51:44.372137+00:00"
     },
     {
       "name": "Balamugundan I",
       "register_number": "124012012103",
       "created_at": "2026-11-23T17:52:17.623960+00:00",
-      "_id": "5c023537-d0b4-4fb9-bb22-84d239d5d631"
+      "_id": "5c023537-d0b4-4fb9-bb22-84d239d5d631",
+      "quiz_status": "completed",
+      "attempt_id": "9f9b6077-d295-481a-9a80-5de906bfabf2",
+      "score": 10,
+      "percentage": 14.29,
+      "submission_time": "2026-11-23T17:52:51.538614+00:00"
     },
     {
       "name": "vhg",
       "register_number": "51",
       "created_at": "2026-11-23T17:55:10.254960+00:00",
-      "_id": "6540b01e-d66e-4a6f-935c-f5348769171c"
+      "_id": "6540b01e-d66e-4a6f-935c-f5348769171c",
+      "quiz_status": "in_progress",
+      "attempt_id": "7ddaca4c-2b90-4e4f-b21f-78590d2897d1",
+      "score": 0,
+      "percentage": 0,
+      "submission_time": null
     },
     {
       "name": "Balamugundan I",
       "register_number": "12401201210308",
       "created_at": "2026-11-24T09:00:27.810353+00:00",
-      "_id": "b7b09de7-0bb5-4178-b97e-1e1e89c41bce"
+      "_id": "b7b09de7-0bb5-4178-b97e-1e1e89c41bce",
+      "quiz_status": "completed",
+      "attempt_id": "7babb545-6fa4-4936-9485-0229cf4fe6e6",
+      "score": 55,
+      "percentage": 78.57,
+      "submission_time": "2026-11-24T09:01:49.479108+00:00"
     },
     {
       "name": "Balamugundan I",
       "register_number": "54533",
       "created_at": "2026-11-24T10:41:51.377901+00:00",
-      "_id": "3ec492f4-5aca-424a-85d1-747bc58ed059"
+      "_id": "3ec492f4-5aca-424a-85d1-747bc58ed059",
+      "quiz_status": "in_progress",
+      "attempt_id": "55579f05-80fd-4a78-a03d-8f7d6f401848",
+      "score": 0,
+      "percentage": 0,
+      "submission_time": null
+    },
+    {
+      "name": "Jane Doe",
+      "register_number": "REG_7AAEEA",
+      "created_at": "2026-11-26T04:38:40.373361+00:00",
+      "_id": "58f36488-d7e0-4dbf-bc64-b45449eae372",
+      "quiz_status": "completed",
+      "attempt_id": "535d0c5d-f743-4225-8ac2-07364f86fa05",
+      "score": 15,
+      "percentage": 17.65,
+      "submission_time": "2026-11-26T04:38:40.420715+00:00"
+    },
+    {
+      "name": "Monitored Student",
+      "register_number": "MON_D0345E",
+      "created_at": "2026-11-26T04:38:40.434576+00:00",
+      "_id": "e2b9abcc-779f-4575-9c8d-4bc47cc26f46",
+      "quiz_status": "terminated",
+      "attempt_id": "359e73a3-176c-4fa8-94ee-b49d0960739c",
+      "score": 0,
+      "percentage": 0,
+      "submission_time": null
+    },
+    {
+      "name": "Jane Doe",
+      "register_number": "REG_D3A4FC",
+      "created_at": "2026-11-26T04:49:01.686871+00:00",
+      "_id": "e90ba55e-ae69-4f6f-bdb4-7ad7669404ef",
+      "quiz_status": "completed",
+      "attempt_id": "6a1d9192-5f55-4ef6-895a-3bf33f48ff47",
+      "score": 15,
+      "percentage": 15.0,
+      "submission_time": "2026-11-26T04:49:01.762902+00:00"
+    },
+    {
+      "name": "Monitored Student",
+      "register_number": "MON_C9A6D7",
+      "created_at": "2026-11-26T04:49:01.782135+00:00",
+      "_id": "7495f2d3-c773-4e7f-a8f6-c669d4901914",
+      "quiz_status": "terminated",
+      "attempt_id": "de361f4d-44bc-40fe-8ab5-1654064740db",
+      "score": 0,
+      "percentage": 0,
+      "submission_time": null
+    },
+    {
+      "name": "Alice",
+      "register_number": "SHUF_34CB2",
+      "created_at": "2026-11-26T04:50:35.947195+00:00",
+      "_id": "61b47b06-0c53-402b-b05f-a2e2094ee4b7",
+      "quiz_status": "active",
+      "attempt_id": "4f7dd9d4-3ad0-48a3-977d-a0b506796d95",
+      "score": 0,
+      "percentage": 0,
+      "submission_time": null
+    },
+    {
+      "name": "Bob",
+      "register_number": "SHUF_23A00",
+      "created_at": "2026-11-26T04:50:35.965267+00:00",
+      "_id": "5cfbeb4c-a958-43d5-97a4-9aff86ede1ca",
+      "quiz_status": "active",
+      "attempt_id": "756d21dc-6982-46c9-9081-d6571da263e4",
+      "score": 0,
+      "percentage": 0,
+      "submission_time": null
+    },
+    {
+      "name": "ResumeTester",
+      "register_number": "RESUME_CE6BA",
+      "created_at": "2026-11-26T04:50:36.140720+00:00",
+      "_id": "49a16aee-1964-480f-92bd-99609cf26a77",
+      "quiz_status": "active",
+      "attempt_id": "c9050487-c3e1-4ecf-a0f0-317e21d974cf",
+      "score": 0,
+      "percentage": 0,
+      "submission_time": null
+    },
+    {
+      "name": "DelTester",
+      "register_number": "DELT_137FD",
+      "created_at": "2026-11-26T04:50:36.452862+00:00",
+      "_id": "6663399f-b46b-4ffd-92c5-8d446bf5047a",
+      "quiz_status": "active",
+      "attempt_id": "007084a6-515a-4a8c-9fd9-fc8507515faa",
+      "score": 0,
+      "percentage": 0,
+      "submission_time": null
+    },
+    {
+      "name": "ListTester",
+      "register_number": "STDL_5ECE3",
+      "created_at": "2026-11-26T04:50:36.659075+00:00",
+      "_id": "4747e7ef-39ac-4a66-a720-81a7b9ece004",
+      "quiz_status": "not_started",
+      "attempt_id": null,
+      "score": 0,
+      "percentage": 0,
+      "submission_time": null
+    },
+    {
+      "name": "OrderTester",
+      "register_number": "QO_E2B26",
+      "created_at": "2026-11-26T04:50:36.815474+00:00",
+      "_id": "0a443112-700d-46d2-874b-869bcf9079f9"
+    },
+    {
+      "name": "DupTest2",
+      "register_number": "NODUP_5B93",
+      "created_at": "2026-11-26T04:50:36.986281+00:00",
+      "_id": "ccde89a8-b105-41fe-9f49-5711b5f79484"
+    },
+    {
+      "name": "ScoreTester",
+      "register_number": "SCORE_58E38",
+      "created_at": "2026-11-26T04:50:37.174331+00:00",
+      "_id": "4ebd9493-9389-4db3-9b4e-da142a6902ef"
+    },
+    {
+      "name": "Jane Doe",
+      "register_number": "REG_2B68B6",
+      "created_at": "2026-11-26T04:50:47.096444+00:00",
+      "_id": "aef7ac5c-9966-4863-8ab1-4a299d08ef96"
+    },
+    {
+      "name": "Monitored Student",
+      "register_number": "MON_11E45E",
+      "created_at": "2026-11-26T04:50:47.172202+00:00",
+      "_id": "2b30d21d-8e01-4662-95c4-6b541ebfc8fb"
     }
   ],
   "quiz_attempts": [
@@ -963,6 +1177,1086 @@
       "unanswered_count": 8,
       "total_questions": 8,
       "_id": "55579f05-80fd-4a78-a03d-8f7d6f401848"
+    },
+    {
+      "student_id": "58f36488-d7e0-4dbf-bc64-b45449eae372",
+      "student_name": "Jane Doe",
+      "register_number": "REG_7AAEEA",
+      "session_token": "e9ac8393-b53f-4af5-bff1-c18f98ae0559",
+      "answers": {
+        "4d92f68f-40f9-49ac-b49c-1c4e4cfc8e89": "A"
+      },
+      "start_time": "2026-11-26T04:38:40.396077+00:00",
+      "submission_time": "2026-11-26T04:38:40.420715+00:00",
+      "last_heartbeat": "2026-11-26T04:38:40.409870+00:00",
+      "score": 15,
+      "total_marks": 85,
+      "percentage": 17.65,
+      "status": "completed",
+      "tab_switches_count": 0,
+      "fullscreen_exits_count": 0,
+      "suspicious_events_count": 0,
+      "correct_count": 1,
+      "wrong_count": 0,
+      "unanswered_count": 8,
+      "total_questions": 9,
+      "client_ip": "127.0.0.1",
+      "_id": "535d0c5d-f743-4225-8ac2-07364f86fa05",
+      "detailed_results": [
+        {
+          "question_id": "c96a4b39-db12-4bb0-baad-b0d499000b54",
+          "question_text": "What does REST stand for in web architecture?",
+          "options": {
+            "A": "Representational State Transfer",
+            "B": "Remote Execution Standard Template",
+            "C": "Rapid Entity Sync Transmission",
+            "D": "Responsive Enterprise Server Tech"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "83bd0402-612d-4767-8ae4-99bed7d5c366",
+          "question_text": "Which HTTP method is typically used to update an existing resource idempotently?",
+          "options": {
+            "A": "GET",
+            "B": "POST",
+            "C": "PUT",
+            "D": "DELETE"
+          },
+          "student_answer": null,
+          "correct_answer": "C",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "d9e4394d-dd6c-4189-b80b-458adfcb4cc3",
+          "question_text": "In MongoDB, what is the primary data structure used to store documents?",
+          "options": {
+            "A": "XML",
+            "B": "BSON (Binary JSON)",
+            "C": "CSV",
+            "D": "YAML"
+          },
+          "student_answer": null,
+          "correct_answer": "B",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "fd1da6c4-ddaa-4ef3-a1ef-51c87e31f410",
+          "question_text": "Which of the following JavaScript methods parses a JSON string into an object?",
+          "options": {
+            "A": "JSON.stringify()",
+            "B": "JSON.parse()",
+            "C": "JSON.toObject()",
+            "D": "JSON.decode()"
+          },
+          "student_answer": null,
+          "correct_answer": "B",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "d018b657-cc91-4f20-bd47-2df8d842a977",
+          "question_text": "In Flask, which decorator is standardly used to bind a function to a URL route?",
+          "options": {
+            "A": "@app.route()",
+            "B": "@app.bind()",
+            "C": "@app.endpoint()",
+            "D": "@app.listen()"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "49bc5e0e-35f5-43a8-b681-9cbba3c0da40",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": false
+        },
+        {
+          "question_id": "86f742e8-1b04-48a9-a99a-e6a3e0d042ee",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": false
+        },
+        {
+          "question_id": "c1108eb9-9870-4562-a6f6-11460511e8c0",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": false
+        },
+        {
+          "question_id": "4d92f68f-40f9-49ac-b49c-1c4e4cfc8e89",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": "A",
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": true
+        }
+      ]
+    },
+    {
+      "student_id": "e2b9abcc-779f-4575-9c8d-4bc47cc26f46",
+      "student_name": "Monitored Student",
+      "register_number": "MON_D0345E",
+      "session_token": "82c98fcb-f41f-4f15-a304-a652f23de02c",
+      "answers": {},
+      "start_time": "2026-11-26T04:38:40.443317+00:00",
+      "submission_time": null,
+      "last_heartbeat": "2026-11-26T04:38:40.520746+00:00",
+      "score": 0,
+      "total_marks": 85,
+      "percentage": 0,
+      "status": "terminated",
+      "tab_switches_count": 1,
+      "fullscreen_exits_count": 1,
+      "suspicious_events_count": 3,
+      "correct_count": 0,
+      "wrong_count": 0,
+      "unanswered_count": 9,
+      "total_questions": 9,
+      "client_ip": "127.0.0.1",
+      "_id": "359e73a3-176c-4fa8-94ee-b49d0960739c",
+      "terminated_at": "2026-11-26T04:38:40.510723+00:00"
+    },
+    {
+      "student_id": "e90ba55e-ae69-4f6f-bdb4-7ad7669404ef",
+      "student_name": "Jane Doe",
+      "register_number": "REG_D3A4FC",
+      "session_token": "86ae3ebc-69ac-48f7-9fe0-84fcdfc660b4",
+      "question_order": [
+        "d018b657-cc91-4f20-bd47-2df8d842a977",
+        "c96a4b39-db12-4bb0-baad-b0d499000b54",
+        "4d92f68f-40f9-49ac-b49c-1c4e4cfc8e89",
+        "d9e4394d-dd6c-4189-b80b-458adfcb4cc3",
+        "86f742e8-1b04-48a9-a99a-e6a3e0d042ee",
+        "c1108eb9-9870-4562-a6f6-11460511e8c0",
+        "fd1da6c4-ddaa-4ef3-a1ef-51c87e31f410",
+        "49bc5e0e-35f5-43a8-b681-9cbba3c0da40",
+        "480a6d9e-7c18-4542-8f0e-055a083a117f",
+        "83bd0402-612d-4767-8ae4-99bed7d5c366"
+      ],
+      "answers": {
+        "480a6d9e-7c18-4542-8f0e-055a083a117f": "A"
+      },
+      "start_time": "2026-11-26T04:49:01.726341+00:00",
+      "submission_time": "2026-11-26T04:49:01.762902+00:00",
+      "last_heartbeat": "2026-11-26T04:49:01.746828+00:00",
+      "score": 15,
+      "total_marks": 100,
+      "percentage": 15.0,
+      "status": "completed",
+      "tab_switches_count": 0,
+      "fullscreen_exits_count": 0,
+      "suspicious_events_count": 0,
+      "correct_count": 1,
+      "wrong_count": 0,
+      "unanswered_count": 9,
+      "total_questions": 10,
+      "client_ip": "127.0.0.1",
+      "_id": "6a1d9192-5f55-4ef6-895a-3bf33f48ff47",
+      "detailed_results": [
+        {
+          "question_id": "d018b657-cc91-4f20-bd47-2df8d842a977",
+          "question_text": "In Flask, which decorator is standardly used to bind a function to a URL route?",
+          "options": {
+            "A": "@app.route()",
+            "B": "@app.bind()",
+            "C": "@app.endpoint()",
+            "D": "@app.listen()"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "c96a4b39-db12-4bb0-baad-b0d499000b54",
+          "question_text": "What does REST stand for in web architecture?",
+          "options": {
+            "A": "Representational State Transfer",
+            "B": "Remote Execution Standard Template",
+            "C": "Rapid Entity Sync Transmission",
+            "D": "Responsive Enterprise Server Tech"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "4d92f68f-40f9-49ac-b49c-1c4e4cfc8e89",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": false
+        },
+        {
+          "question_id": "d9e4394d-dd6c-4189-b80b-458adfcb4cc3",
+          "question_text": "In MongoDB, what is the primary data structure used to store documents?",
+          "options": {
+            "A": "XML",
+            "B": "BSON (Binary JSON)",
+            "C": "CSV",
+            "D": "YAML"
+          },
+          "student_answer": null,
+          "correct_answer": "B",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "86f742e8-1b04-48a9-a99a-e6a3e0d042ee",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": false
+        },
+        {
+          "question_id": "c1108eb9-9870-4562-a6f6-11460511e8c0",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": false
+        },
+        {
+          "question_id": "fd1da6c4-ddaa-4ef3-a1ef-51c87e31f410",
+          "question_text": "Which of the following JavaScript methods parses a JSON string into an object?",
+          "options": {
+            "A": "JSON.stringify()",
+            "B": "JSON.parse()",
+            "C": "JSON.toObject()",
+            "D": "JSON.decode()"
+          },
+          "student_answer": null,
+          "correct_answer": "B",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "49bc5e0e-35f5-43a8-b681-9cbba3c0da40",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": false
+        },
+        {
+          "question_id": "480a6d9e-7c18-4542-8f0e-055a083a117f",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": "A",
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": true
+        },
+        {
+          "question_id": "83bd0402-612d-4767-8ae4-99bed7d5c366",
+          "question_text": "Which HTTP method is typically used to update an existing resource idempotently?",
+          "options": {
+            "A": "GET",
+            "B": "POST",
+            "C": "PUT",
+            "D": "DELETE"
+          },
+          "student_answer": null,
+          "correct_answer": "C",
+          "marks": 5,
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "student_id": "7495f2d3-c773-4e7f-a8f6-c669d4901914",
+      "student_name": "Monitored Student",
+      "register_number": "MON_C9A6D7",
+      "session_token": "0b083160-420e-42de-bd08-cb6a8d7fe755",
+      "question_order": [
+        "86f742e8-1b04-48a9-a99a-e6a3e0d042ee",
+        "83bd0402-612d-4767-8ae4-99bed7d5c366",
+        "d9e4394d-dd6c-4189-b80b-458adfcb4cc3",
+        "4d92f68f-40f9-49ac-b49c-1c4e4cfc8e89",
+        "d018b657-cc91-4f20-bd47-2df8d842a977",
+        "c96a4b39-db12-4bb0-baad-b0d499000b54",
+        "49bc5e0e-35f5-43a8-b681-9cbba3c0da40",
+        "c1108eb9-9870-4562-a6f6-11460511e8c0",
+        "480a6d9e-7c18-4542-8f0e-055a083a117f",
+        "fd1da6c4-ddaa-4ef3-a1ef-51c87e31f410"
+      ],
+      "answers": {},
+      "start_time": "2026-11-26T04:49:01.797192+00:00",
+      "submission_time": null,
+      "last_heartbeat": "2026-11-26T04:49:01.913309+00:00",
+      "score": 0,
+      "total_marks": 100,
+      "percentage": 0,
+      "status": "terminated",
+      "tab_switches_count": 1,
+      "fullscreen_exits_count": 1,
+      "suspicious_events_count": 3,
+      "correct_count": 0,
+      "wrong_count": 0,
+      "unanswered_count": 10,
+      "total_questions": 10,
+      "client_ip": "127.0.0.1",
+      "_id": "de361f4d-44bc-40fe-8ab5-1654064740db",
+      "terminated_at": "2026-11-26T04:49:01.896421+00:00"
+    },
+    {
+      "student_id": "61b47b06-0c53-402b-b05f-a2e2094ee4b7",
+      "student_name": "Alice",
+      "register_number": "SHUF_34CB2",
+      "session_token": "162b377f-7d36-487e-b934-a598985d0fac",
+      "question_order": [
+        "83bd0402-612d-4767-8ae4-99bed7d5c366",
+        "86f742e8-1b04-48a9-a99a-e6a3e0d042ee",
+        "49bc5e0e-35f5-43a8-b681-9cbba3c0da40",
+        "c1108eb9-9870-4562-a6f6-11460511e8c0",
+        "4d92f68f-40f9-49ac-b49c-1c4e4cfc8e89",
+        "c96a4b39-db12-4bb0-baad-b0d499000b54",
+        "d9e4394d-dd6c-4189-b80b-458adfcb4cc3",
+        "d018b657-cc91-4f20-bd47-2df8d842a977",
+        "fd1da6c4-ddaa-4ef3-a1ef-51c87e31f410",
+        "480a6d9e-7c18-4542-8f0e-055a083a117f"
+      ],
+      "answers": {},
+      "start_time": "2026-11-26T04:50:35.950502+00:00",
+      "submission_time": null,
+      "last_heartbeat": "2026-11-26T04:50:35.950524+00:00",
+      "score": 0,
+      "total_marks": 100,
+      "percentage": 0,
+      "status": "active",
+      "tab_switches_count": 0,
+      "fullscreen_exits_count": 0,
+      "suspicious_events_count": 0,
+      "correct_count": 0,
+      "wrong_count": 0,
+      "unanswered_count": 10,
+      "total_questions": 10,
+      "client_ip": "127.0.0.1",
+      "_id": "4f7dd9d4-3ad0-48a3-977d-a0b506796d95"
+    },
+    {
+      "student_id": "5cfbeb4c-a958-43d5-97a4-9aff86ede1ca",
+      "student_name": "Bob",
+      "register_number": "SHUF_23A00",
+      "session_token": "0248f9ee-3430-4a13-937a-629a240588b1",
+      "question_order": [
+        "4d92f68f-40f9-49ac-b49c-1c4e4cfc8e89",
+        "d018b657-cc91-4f20-bd47-2df8d842a977",
+        "49bc5e0e-35f5-43a8-b681-9cbba3c0da40",
+        "480a6d9e-7c18-4542-8f0e-055a083a117f",
+        "c96a4b39-db12-4bb0-baad-b0d499000b54",
+        "86f742e8-1b04-48a9-a99a-e6a3e0d042ee",
+        "83bd0402-612d-4767-8ae4-99bed7d5c366",
+        "d9e4394d-dd6c-4189-b80b-458adfcb4cc3",
+        "c1108eb9-9870-4562-a6f6-11460511e8c0",
+        "fd1da6c4-ddaa-4ef3-a1ef-51c87e31f410"
+      ],
+      "answers": {},
+      "start_time": "2026-11-26T04:50:35.981466+00:00",
+      "submission_time": null,
+      "last_heartbeat": "2026-11-26T04:50:35.981484+00:00",
+      "score": 0,
+      "total_marks": 100,
+      "percentage": 0,
+      "status": "active",
+      "tab_switches_count": 0,
+      "fullscreen_exits_count": 0,
+      "suspicious_events_count": 0,
+      "correct_count": 0,
+      "wrong_count": 0,
+      "unanswered_count": 10,
+      "total_questions": 10,
+      "client_ip": "127.0.0.1",
+      "_id": "756d21dc-6982-46c9-9081-d6571da263e4"
+    },
+    {
+      "student_id": "49a16aee-1964-480f-92bd-99609cf26a77",
+      "student_name": "ResumeTester",
+      "register_number": "RESUME_CE6BA",
+      "session_token": "adde9f37-6d00-442f-a23c-f6195dc13061",
+      "question_order": [
+        "86f742e8-1b04-48a9-a99a-e6a3e0d042ee",
+        "d9e4394d-dd6c-4189-b80b-458adfcb4cc3",
+        "480a6d9e-7c18-4542-8f0e-055a083a117f",
+        "c96a4b39-db12-4bb0-baad-b0d499000b54",
+        "c1108eb9-9870-4562-a6f6-11460511e8c0",
+        "d018b657-cc91-4f20-bd47-2df8d842a977",
+        "49bc5e0e-35f5-43a8-b681-9cbba3c0da40",
+        "83bd0402-612d-4767-8ae4-99bed7d5c366",
+        "4d92f68f-40f9-49ac-b49c-1c4e4cfc8e89",
+        "fd1da6c4-ddaa-4ef3-a1ef-51c87e31f410"
+      ],
+      "answers": {},
+      "start_time": "2026-11-26T04:50:36.157416+00:00",
+      "submission_time": null,
+      "last_heartbeat": "2026-11-26T04:50:36.217104+00:00",
+      "score": 0,
+      "total_marks": 100,
+      "percentage": 0,
+      "status": "active",
+      "tab_switches_count": 0,
+      "fullscreen_exits_count": 0,
+      "suspicious_events_count": 1,
+      "correct_count": 0,
+      "wrong_count": 0,
+      "unanswered_count": 10,
+      "total_questions": 10,
+      "client_ip": "127.0.0.1",
+      "_id": "c9050487-c3e1-4ecf-a0f0-317e21d974cf"
+    },
+    {
+      "student_id": "6663399f-b46b-4ffd-92c5-8d446bf5047a",
+      "student_name": "DelTester",
+      "register_number": "DELT_137FD",
+      "session_token": "d9e965b1-9565-4f50-9323-412bb8670d47",
+      "question_order": [
+        "c1108eb9-9870-4562-a6f6-11460511e8c0",
+        "49bc5e0e-35f5-43a8-b681-9cbba3c0da40",
+        "4d92f68f-40f9-49ac-b49c-1c4e4cfc8e89",
+        "83bd0402-612d-4767-8ae4-99bed7d5c366",
+        "d018b657-cc91-4f20-bd47-2df8d842a977",
+        "86f742e8-1b04-48a9-a99a-e6a3e0d042ee",
+        "c96a4b39-db12-4bb0-baad-b0d499000b54",
+        "d9e4394d-dd6c-4189-b80b-458adfcb4cc3",
+        "fd1da6c4-ddaa-4ef3-a1ef-51c87e31f410",
+        "480a6d9e-7c18-4542-8f0e-055a083a117f"
+      ],
+      "answers": {},
+      "start_time": "2026-11-26T04:50:36.470233+00:00",
+      "submission_time": null,
+      "last_heartbeat": "2026-11-26T04:50:36.470266+00:00",
+      "score": 0,
+      "total_marks": 100,
+      "percentage": 0,
+      "status": "active",
+      "tab_switches_count": 0,
+      "fullscreen_exits_count": 0,
+      "suspicious_events_count": 0,
+      "correct_count": 0,
+      "wrong_count": 0,
+      "unanswered_count": 10,
+      "total_questions": 10,
+      "client_ip": "127.0.0.1",
+      "_id": "007084a6-515a-4a8c-9fd9-fc8507515faa"
+    },
+    {
+      "student_id": "0a443112-700d-46d2-874b-869bcf9079f9",
+      "student_name": "OrderTester",
+      "register_number": "QO_E2B26",
+      "session_token": "c51dc2e4-a4bb-4b12-9239-3ee152d668bd",
+      "question_order": [
+        "86f742e8-1b04-48a9-a99a-e6a3e0d042ee",
+        "fd1da6c4-ddaa-4ef3-a1ef-51c87e31f410",
+        "83bd0402-612d-4767-8ae4-99bed7d5c366",
+        "480a6d9e-7c18-4542-8f0e-055a083a117f",
+        "c1108eb9-9870-4562-a6f6-11460511e8c0",
+        "d9e4394d-dd6c-4189-b80b-458adfcb4cc3",
+        "49bc5e0e-35f5-43a8-b681-9cbba3c0da40",
+        "d018b657-cc91-4f20-bd47-2df8d842a977",
+        "4d92f68f-40f9-49ac-b49c-1c4e4cfc8e89",
+        "c96a4b39-db12-4bb0-baad-b0d499000b54"
+      ],
+      "answers": {},
+      "start_time": "2026-11-26T04:50:36.830228+00:00",
+      "submission_time": null,
+      "last_heartbeat": "2026-11-26T04:50:36.830248+00:00",
+      "score": 0,
+      "total_marks": 100,
+      "percentage": 0,
+      "status": "active",
+      "tab_switches_count": 0,
+      "fullscreen_exits_count": 0,
+      "suspicious_events_count": 0,
+      "correct_count": 0,
+      "wrong_count": 0,
+      "unanswered_count": 10,
+      "total_questions": 10,
+      "client_ip": "127.0.0.1",
+      "_id": "513215c0-195f-409c-aa90-c69ff8538b56"
+    },
+    {
+      "student_id": "4ebd9493-9389-4db3-9b4e-da142a6902ef",
+      "student_name": "ScoreTester",
+      "register_number": "SCORE_58E38",
+      "session_token": "728e46c3-092a-4440-b1e2-6fe59f7d522e",
+      "question_order": [
+        "c1108eb9-9870-4562-a6f6-11460511e8c0",
+        "86f742e8-1b04-48a9-a99a-e6a3e0d042ee",
+        "83bd0402-612d-4767-8ae4-99bed7d5c366",
+        "d9e4394d-dd6c-4189-b80b-458adfcb4cc3",
+        "49bc5e0e-35f5-43a8-b681-9cbba3c0da40",
+        "d018b657-cc91-4f20-bd47-2df8d842a977",
+        "fd1da6c4-ddaa-4ef3-a1ef-51c87e31f410",
+        "4075b73b-1931-4b5f-bb97-963ada5f7a50",
+        "4d92f68f-40f9-49ac-b49c-1c4e4cfc8e89",
+        "480a6d9e-7c18-4542-8f0e-055a083a117f",
+        "c96a4b39-db12-4bb0-baad-b0d499000b54"
+      ],
+      "answers": {
+        "4075b73b-1931-4b5f-bb97-963ada5f7a50": "A"
+      },
+      "start_time": "2026-11-26T04:50:37.190664+00:00",
+      "submission_time": "2026-11-26T04:50:37.244152+00:00",
+      "last_heartbeat": "2026-11-26T04:50:37.207415+00:00",
+      "score": 0,
+      "total_marks": 100,
+      "percentage": 0.0,
+      "status": "completed",
+      "tab_switches_count": 0,
+      "fullscreen_exits_count": 0,
+      "suspicious_events_count": 0,
+      "correct_count": 0,
+      "wrong_count": 0,
+      "unanswered_count": 10,
+      "total_questions": 10,
+      "client_ip": "127.0.0.1",
+      "_id": "83de3c8e-b3d4-46ec-8d6a-d4835f5a027c",
+      "detailed_results": [
+        {
+          "question_id": "c1108eb9-9870-4562-a6f6-11460511e8c0",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": false
+        },
+        {
+          "question_id": "86f742e8-1b04-48a9-a99a-e6a3e0d042ee",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": false
+        },
+        {
+          "question_id": "83bd0402-612d-4767-8ae4-99bed7d5c366",
+          "question_text": "Which HTTP method is typically used to update an existing resource idempotently?",
+          "options": {
+            "A": "GET",
+            "B": "POST",
+            "C": "PUT",
+            "D": "DELETE"
+          },
+          "student_answer": null,
+          "correct_answer": "C",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "d9e4394d-dd6c-4189-b80b-458adfcb4cc3",
+          "question_text": "In MongoDB, what is the primary data structure used to store documents?",
+          "options": {
+            "A": "XML",
+            "B": "BSON (Binary JSON)",
+            "C": "CSV",
+            "D": "YAML"
+          },
+          "student_answer": null,
+          "correct_answer": "B",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "49bc5e0e-35f5-43a8-b681-9cbba3c0da40",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": false
+        },
+        {
+          "question_id": "d018b657-cc91-4f20-bd47-2df8d842a977",
+          "question_text": "In Flask, which decorator is standardly used to bind a function to a URL route?",
+          "options": {
+            "A": "@app.route()",
+            "B": "@app.bind()",
+            "C": "@app.endpoint()",
+            "D": "@app.listen()"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "fd1da6c4-ddaa-4ef3-a1ef-51c87e31f410",
+          "question_text": "Which of the following JavaScript methods parses a JSON string into an object?",
+          "options": {
+            "A": "JSON.stringify()",
+            "B": "JSON.parse()",
+            "C": "JSON.toObject()",
+            "D": "JSON.decode()"
+          },
+          "student_answer": null,
+          "correct_answer": "B",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "4d92f68f-40f9-49ac-b49c-1c4e4cfc8e89",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": false
+        },
+        {
+          "question_id": "480a6d9e-7c18-4542-8f0e-055a083a117f",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": false
+        },
+        {
+          "question_id": "c96a4b39-db12-4bb0-baad-b0d499000b54",
+          "question_text": "What does REST stand for in web architecture?",
+          "options": {
+            "A": "Representational State Transfer",
+            "B": "Remote Execution Standard Template",
+            "C": "Rapid Entity Sync Transmission",
+            "D": "Responsive Enterprise Server Tech"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 5,
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "student_id": "aef7ac5c-9966-4863-8ab1-4a299d08ef96",
+      "student_name": "Jane Doe",
+      "register_number": "REG_2B68B6",
+      "session_token": "344e6cd8-a9a0-47bb-bb35-0eac61b4a22a",
+      "question_order": [
+        "83bd0402-612d-4767-8ae4-99bed7d5c366",
+        "86f742e8-1b04-48a9-a99a-e6a3e0d042ee",
+        "d9e4394d-dd6c-4189-b80b-458adfcb4cc3",
+        "49bc5e0e-35f5-43a8-b681-9cbba3c0da40",
+        "480a6d9e-7c18-4542-8f0e-055a083a117f",
+        "c96a4b39-db12-4bb0-baad-b0d499000b54",
+        "cc8c28a6-9ae2-4c48-a4b8-7864f7b04e67",
+        "d018b657-cc91-4f20-bd47-2df8d842a977",
+        "c1108eb9-9870-4562-a6f6-11460511e8c0",
+        "fd1da6c4-ddaa-4ef3-a1ef-51c87e31f410",
+        "4d92f68f-40f9-49ac-b49c-1c4e4cfc8e89"
+      ],
+      "answers": {
+        "cc8c28a6-9ae2-4c48-a4b8-7864f7b04e67": "A"
+      },
+      "start_time": "2026-11-26T04:50:47.126980+00:00",
+      "submission_time": "2026-11-26T04:50:47.155643+00:00",
+      "last_heartbeat": "2026-11-26T04:50:47.141377+00:00",
+      "score": 15,
+      "total_marks": 115,
+      "percentage": 13.04,
+      "status": "completed",
+      "tab_switches_count": 0,
+      "fullscreen_exits_count": 0,
+      "suspicious_events_count": 0,
+      "correct_count": 1,
+      "wrong_count": 0,
+      "unanswered_count": 10,
+      "total_questions": 11,
+      "client_ip": "127.0.0.1",
+      "_id": "040fb979-241e-4500-a2a4-8877c8c947fc",
+      "detailed_results": [
+        {
+          "question_id": "83bd0402-612d-4767-8ae4-99bed7d5c366",
+          "question_text": "Which HTTP method is typically used to update an existing resource idempotently?",
+          "options": {
+            "A": "GET",
+            "B": "POST",
+            "C": "PUT",
+            "D": "DELETE"
+          },
+          "student_answer": null,
+          "correct_answer": "C",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "86f742e8-1b04-48a9-a99a-e6a3e0d042ee",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": false
+        },
+        {
+          "question_id": "d9e4394d-dd6c-4189-b80b-458adfcb4cc3",
+          "question_text": "In MongoDB, what is the primary data structure used to store documents?",
+          "options": {
+            "A": "XML",
+            "B": "BSON (Binary JSON)",
+            "C": "CSV",
+            "D": "YAML"
+          },
+          "student_answer": null,
+          "correct_answer": "B",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "49bc5e0e-35f5-43a8-b681-9cbba3c0da40",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": false
+        },
+        {
+          "question_id": "480a6d9e-7c18-4542-8f0e-055a083a117f",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": false
+        },
+        {
+          "question_id": "c96a4b39-db12-4bb0-baad-b0d499000b54",
+          "question_text": "What does REST stand for in web architecture?",
+          "options": {
+            "A": "Representational State Transfer",
+            "B": "Remote Execution Standard Template",
+            "C": "Rapid Entity Sync Transmission",
+            "D": "Responsive Enterprise Server Tech"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "cc8c28a6-9ae2-4c48-a4b8-7864f7b04e67",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": "A",
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": true
+        },
+        {
+          "question_id": "d018b657-cc91-4f20-bd47-2df8d842a977",
+          "question_text": "In Flask, which decorator is standardly used to bind a function to a URL route?",
+          "options": {
+            "A": "@app.route()",
+            "B": "@app.bind()",
+            "C": "@app.endpoint()",
+            "D": "@app.listen()"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "c1108eb9-9870-4562-a6f6-11460511e8c0",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": false
+        },
+        {
+          "question_id": "fd1da6c4-ddaa-4ef3-a1ef-51c87e31f410",
+          "question_text": "Which of the following JavaScript methods parses a JSON string into an object?",
+          "options": {
+            "A": "JSON.stringify()",
+            "B": "JSON.parse()",
+            "C": "JSON.toObject()",
+            "D": "JSON.decode()"
+          },
+          "student_answer": null,
+          "correct_answer": "B",
+          "marks": 5,
+          "is_correct": false
+        },
+        {
+          "question_id": "4d92f68f-40f9-49ac-b49c-1c4e4cfc8e89",
+          "question_text": "What is Python Flask framework?",
+          "options": {
+            "A": "A micro web framework",
+            "B": "A relational database",
+            "C": "A CSS styling library",
+            "D": "A browser rendering engine"
+          },
+          "student_answer": null,
+          "correct_answer": "A",
+          "marks": 15,
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "student_id": "2b30d21d-8e01-4662-95c4-6b541ebfc8fb",
+      "student_name": "Monitored Student",
+      "register_number": "MON_11E45E",
+      "session_token": "965279be-dc46-4c22-8457-241479d1714a",
+      "question_order": [
+        "d9e4394d-dd6c-4189-b80b-458adfcb4cc3",
+        "4d92f68f-40f9-49ac-b49c-1c4e4cfc8e89",
+        "c96a4b39-db12-4bb0-baad-b0d499000b54",
+        "c1108eb9-9870-4562-a6f6-11460511e8c0",
+        "fd1da6c4-ddaa-4ef3-a1ef-51c87e31f410",
+        "480a6d9e-7c18-4542-8f0e-055a083a117f",
+        "d018b657-cc91-4f20-bd47-2df8d842a977",
+        "83bd0402-612d-4767-8ae4-99bed7d5c366",
+        "49bc5e0e-35f5-43a8-b681-9cbba3c0da40",
+        "86f742e8-1b04-48a9-a99a-e6a3e0d042ee",
+        "cc8c28a6-9ae2-4c48-a4b8-7864f7b04e67"
+      ],
+      "answers": {},
+      "start_time": "2026-11-26T04:50:47.186275+00:00",
+      "submission_time": null,
+      "last_heartbeat": "2026-11-26T04:50:47.301067+00:00",
+      "score": 0,
+      "total_marks": 115,
+      "percentage": 0,
+      "status": "terminated",
+      "tab_switches_count": 1,
+      "fullscreen_exits_count": 1,
+      "suspicious_events_count": 3,
+      "correct_count": 0,
+      "wrong_count": 0,
+      "unanswered_count": 11,
+      "total_questions": 11,
+      "client_ip": "127.0.0.1",
+      "_id": "8f3f57c3-8742-495b-8c52-f5e4953a8609",
+      "terminated_at": "2026-11-26T04:50:47.282455+00:00"
+    }
+  ],
+  "quiz_activity_logs": [
+    {
+      "student_name": "Monitored Student",
+      "register_number": "MON_D0345E",
+      "quiz_session_id": "359e73a3-176c-4fa8-94ee-b49d0960739c",
+      "event_type": "TAB_SWITCH",
+      "event_description": "Switched to search engine tab",
+      "event_timestamp": "2026-11-26T04:38:40.455101+00:00",
+      "event_count": 1,
+      "_id": "d9360e7f-6e09-4c05-9694-3b4ab2192be4"
+    },
+    {
+      "student_name": "Monitored Student",
+      "register_number": "MON_D0345E",
+      "quiz_session_id": "359e73a3-176c-4fa8-94ee-b49d0960739c",
+      "event_type": "FULLSCREEN_EXIT",
+      "event_description": "Exited fullscreen examination mode",
+      "event_timestamp": "2026-11-26T04:38:40.477097+00:00",
+      "event_count": 2,
+      "_id": "5fb3d1bb-492f-4bb3-bbac-486e84b20695"
+    },
+    {
+      "student_name": "Monitored Student",
+      "register_number": "MON_D0345E",
+      "quiz_session_id": "359e73a3-176c-4fa8-94ee-b49d0960739c",
+      "event_type": "SESSION_DISCONNECTED",
+      "event_description": "Session terminated by administrator",
+      "event_timestamp": "2026-11-26T04:38:40.520746+00:00",
+      "event_count": 1,
+      "_id": "3e9bddd1-9d1b-4a7c-b01c-1001058f3b63"
+    },
+    {
+      "student_name": "Monitored Student",
+      "register_number": "MON_C9A6D7",
+      "quiz_session_id": "de361f4d-44bc-40fe-8ab5-1654064740db",
+      "event_type": "TAB_SWITCH",
+      "event_description": "Switched to search engine tab",
+      "event_timestamp": "2026-11-26T04:49:01.813443+00:00",
+      "event_count": 1,
+      "_id": "301cfff9-325f-4afe-a0c3-631af29a0c14"
+    },
+    {
+      "student_name": "Monitored Student",
+      "register_number": "MON_C9A6D7",
+      "quiz_session_id": "de361f4d-44bc-40fe-8ab5-1654064740db",
+      "event_type": "FULLSCREEN_EXIT",
+      "event_description": "Exited fullscreen examination mode",
+      "event_timestamp": "2026-11-26T04:49:01.845645+00:00",
+      "event_count": 2,
+      "_id": "855f8701-7646-443a-b1bb-11827a5628ba"
+    },
+    {
+      "student_name": "Monitored Student",
+      "register_number": "MON_C9A6D7",
+      "quiz_session_id": "de361f4d-44bc-40fe-8ab5-1654064740db",
+      "event_type": "SESSION_DISCONNECTED",
+      "event_description": "Session terminated by administrator",
+      "event_timestamp": "2026-11-26T04:49:01.913309+00:00",
+      "event_count": 1,
+      "_id": "d441cd6d-81cd-41aa-8059-e44a54b7d588"
+    },
+    {
+      "student_name": "ResumeTester",
+      "register_number": "RESUME_CE6BA",
+      "quiz_session_id": "c9050487-c3e1-4ecf-a0f0-317e21d974cf",
+      "event_type": "MULTIPLE_SESSION",
+      "event_description": "Simultaneous login detected from IP 127.0.0.1",
+      "event_timestamp": "2026-11-26T04:50:36.187218+00:00",
+      "event_count": 1,
+      "_id": "97848a7c-4f72-4cd5-ac95-50e75995f8a3"
+    },
+    {
+      "student_name": "Monitored Student",
+      "register_number": "MON_11E45E",
+      "quiz_session_id": "8f3f57c3-8742-495b-8c52-f5e4953a8609",
+      "event_type": "TAB_SWITCH",
+      "event_description": "Switched to search engine tab",
+      "event_timestamp": "2026-11-26T04:50:47.200141+00:00",
+      "event_count": 1,
+      "_id": "2d1651e7-7a92-478d-9f6a-73764ab67aa6"
+    },
+    {
+      "student_name": "Monitored Student",
+      "register_number": "MON_11E45E",
+      "quiz_session_id": "8f3f57c3-8742-495b-8c52-f5e4953a8609",
+      "event_type": "FULLSCREEN_EXIT",
+      "event_description": "Exited fullscreen examination mode",
+      "event_timestamp": "2026-11-26T04:50:47.231284+00:00",
+      "event_count": 2,
+      "_id": "54c9d965-c786-47d0-897f-987795cfa38e"
+    },
+    {
+      "student_name": "Monitored Student",
+      "register_number": "MON_11E45E",
+      "quiz_session_id": "8f3f57c3-8742-495b-8c52-f5e4953a8609",
+      "event_type": "SESSION_DISCONNECTED",
+      "event_description": "Session terminated by administrator",
+      "event_timestamp": "2026-11-26T04:50:47.301067+00:00",
+      "event_count": 1,
+      "_id": "9a9df9f0-4fb5-447e-9fad-fcda9fa38b80"
     }
   ]
 }

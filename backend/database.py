@@ -1,12 +1,39 @@
 import os
+import re
 import json
 import uuid
 import datetime
+import urllib.parse
 from dotenv import load_dotenv
 
 load_dotenv()
 
-MONGO_URI = os.getenv("MONGO_URI", "").strip()
+def _safe_mongo_uri(uri):
+    """
+    Auto percent-encodes credentials in a MongoDB URI that contain special
+    characters (e.g. @ or ! in the password) so PyMongo can parse it.
+    Only encodes if the credentials are NOT already encoded.
+    """
+    if not uri:
+        return uri
+    uri = uri.strip()
+    # Match scheme://user:pass@host... (handle mongodb+srv and mongodb)
+    m = re.match(r'^(mongodb(?:\+srv)?://)([^@]+)@(.+)$', uri)
+    if not m:
+        return uri
+    scheme = m.group(1)
+    creds  = m.group(2)
+    rest   = m.group(3)
+    if ':' not in creds:
+        return uri
+    # Split on first colon only
+    user, _, pwd = creds.partition(':')
+    # Decode first to avoid double-encoding, then re-encode
+    safe_user = urllib.parse.quote(urllib.parse.unquote(user), safe='')
+    safe_pwd  = urllib.parse.quote(urllib.parse.unquote(pwd),  safe='')
+    return f'{scheme}{safe_user}:{safe_pwd}@{rest}'
+
+MONGO_URI = _safe_mongo_uri(os.getenv("MONGO_URI", "").strip())
 DB_NAME = os.getenv("DB_NAME", "online_quiz_db").strip()
 
 use_mongo = False
@@ -16,6 +43,7 @@ db = None
 if MONGO_URI:
     try:
         from pymongo import MongoClient
+        from bson import ObjectId as _ObjectId
         mongo_client = MongoClient(MONGO_URI, serverSelectionTimeoutMS=5000)
         # Verify connection
         mongo_client.admin.command('ping')
@@ -27,6 +55,29 @@ if MONGO_URI:
         use_mongo = False
 else:
     print("[*] No MONGO_URI provided in environment. Using local persistent JSON store.")
+
+
+def _resolve_id_query(query):
+    """
+    When querying MongoDB Atlas by _id, the stored documents may have BSON ObjectId
+    _id values even though we always pass string IDs in application code.
+    This helper converts a string _id to also try ObjectId so deletions/updates work
+    reliably against both real MongoDB and the local emulator.
+    Returns the original query unchanged if _id is absent or already an ObjectId.
+    """
+    if not use_mongo or '_id' not in query:
+        return query
+    raw = query['_id']
+    if isinstance(raw, str):
+        try:
+            from bson import ObjectId
+            # Return a query that matches either string form or ObjectId form
+            # We do this by using $in; but update_one/delete_one only support simple filters.
+            # Strategy: attempt ObjectId parse; if valid use ObjectId, else keep string.
+            return {**query, '_id': ObjectId(raw)}
+        except Exception:
+            pass
+    return query
 
 
 class LocalCollection:
@@ -161,10 +212,88 @@ class LocalCollection:
 
 LOCAL_DB_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "local_db.json")
 
+
+class MongoCollectionWrapper:
+    """
+    Wraps a real PyMongo collection to handle _id as string transparently.
+
+    Application code always uses string IDs (UUIDs or stringified ObjectIds).
+    Real MongoDB documents may have BSON ObjectId _ids if inserted externally,
+    or string _ids if inserted by this application.  This wrapper:
+      - On insert_one: stores _id as a plain string UUID if none provided.
+      - On find / find_one: returns _id as string in every document.
+      - On update_one / delete_one: tries string _id first, then ObjectId.
+    This keeps application logic simple while being robust to both ID types.
+    """
+
+    def __init__(self, col):
+        self._col = col
+
+    def _to_str_id(self, doc):
+        if doc is None:
+            return None
+        d = dict(doc)
+        d['_id'] = str(d.get('_id', ''))
+        return d
+
+    def _resolve_id(self, query):
+        """Return a pymongo filter that matches the _id whether stored as str or ObjectId."""
+        if '_id' not in query:
+            return query
+        raw = query['_id']
+        if isinstance(raw, str):
+            try:
+                from bson import ObjectId
+                oid = ObjectId(raw)
+                # match either form
+                return {**{k: v for k, v in query.items() if k != '_id'},
+                        '$or': [{'_id': raw}, {'_id': oid}]}
+            except Exception:
+                pass
+        return query
+
+    def insert_one(self, doc):
+        doc = dict(doc)
+        if '_id' not in doc:
+            doc['_id'] = str(uuid.uuid4())
+        res = self._col.insert_one(doc)
+        class Result:
+            inserted_id = str(res.inserted_id)
+        return Result()
+
+    def find_one(self, query=None):
+        q = self._resolve_id(query or {}) if query else {}
+        doc = self._col.find_one(q)
+        return self._to_str_id(doc)
+
+    def find(self, query=None, sort=None):
+        q = self._resolve_id(query or {}) if query else {}
+        cursor = self._col.find(q, sort=sort)
+        return [self._to_str_id(d) for d in cursor]
+
+    def update_one(self, query, update_doc):
+        q = self._resolve_id(query)
+        res = self._col.update_one(q, update_doc)
+        class Result:
+            modified_count = res.modified_count
+        return Result()
+
+    def delete_one(self, query):
+        q = self._resolve_id(query)
+        res = self._col.delete_one(q)
+        class Result:
+            deleted_count = res.deleted_count
+        return Result()
+
+    def count_documents(self, query=None):
+        q = self._resolve_id(query or {}) if query else {}
+        return self._col.count_documents(q)
+
+
 def get_collection(name):
-    """Returns either real PyMongo collection or LocalCollection emulator."""
+    """Returns either a wrapped real PyMongo collection or LocalCollection emulator."""
     if use_mongo and db is not None:
-        return db[name]
+        return MongoCollectionWrapper(db[name])
     return LocalCollection(LOCAL_DB_FILE, name)
 
 def get_utc_now_iso():

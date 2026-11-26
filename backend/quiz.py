@@ -1,5 +1,6 @@
 import datetime
 import uuid
+import random
 from database import (
     questions_col,
     students_col,
@@ -177,25 +178,51 @@ def get_student_attempt(register_number):
     reg = str(register_number).strip().upper()
     return quiz_attempts_col.find_one({"register_number": reg})
 
-def get_sanitized_questions_for_student():
+def get_sanitized_questions_for_student(ordered_ids=None):
     """
     CRITICAL SECURITY FUNCTION:
-    Returns questions list WITHOUT the correct_answer field!
+    Returns questions list WITHOUT the correct_answer field.
+
+    If ordered_ids is provided (list of string IDs), returns questions in that
+    exact order and skips any IDs that no longer exist in the DB (deleted questions).
+    If ordered_ids is None, returns all current questions in DB order.
     """
-    cursor = questions_col.find({})
-    sanitized = []
-    for doc in cursor:
-        sanitized.append({
-            "_id": str(doc.get("_id")),
-            "question_text": doc.get("question_text"),
-            "options": doc.get("options"),
-            "marks": doc.get("marks", 1),
-            "time_limit": doc.get("time_limit", 30)
-        })
-    return sanitized
+    if ordered_ids is not None:
+        # Fetch all current questions into a lookup map (by string _id)
+        all_docs = list(questions_col.find({}))
+        q_map = {str(doc.get("_id")): doc for doc in all_docs}
+        sanitized = []
+        for qid in ordered_ids:
+            doc = q_map.get(str(qid))
+            if doc is None:
+                continue   # question was deleted – silently skip
+            sanitized.append({
+                "_id": str(doc.get("_id")),
+                "question_text": doc.get("question_text"),
+                "options": doc.get("options"),
+                "marks": doc.get("marks", 1),
+                "time_limit": doc.get("time_limit", 30)
+            })
+        return sanitized
+    else:
+        cursor = questions_col.find({})
+        sanitized = []
+        for doc in cursor:
+            sanitized.append({
+                "_id": str(doc.get("_id")),
+                "question_text": doc.get("question_text"),
+                "options": doc.get("options"),
+                "marks": doc.get("marks", 1),
+                "time_limit": doc.get("time_limit", 30)
+            })
+        return sanitized
 
 def start_quiz_attempt(name, register_number, client_ip=""):
-    """Starts or resumes an active quiz attempt for student with authoritative timer & session tracking."""
+    """Starts or resumes an active quiz attempt for student with authoritative timer & session tracking.
+    
+    For NEW attempts: shuffles question order uniquely per-student and saves it to MongoDB.
+    For RESUME attempts: restores the previously saved shuffled order (no reshuffle).
+    """
     student = register_student(name, register_number)
     reg = student["register_number"]
 
@@ -258,43 +285,55 @@ def start_quiz_attempt(name, register_number, client_ip=""):
         existing["session_token"] = session_token
         existing["_id"] = str(existing.get("_id"))
         existing["server_remaining_seconds"] = remaining_secs
-        return existing, get_sanitized_questions_for_student(), settings
 
-    # Create new attempt
-    questions = get_sanitized_questions_for_student()
-    if not questions:
+        # Restore saved question order (no reshuffle on resume)
+        saved_order = existing.get("question_order")
+        questions = get_sanitized_questions_for_student(ordered_ids=saved_order)
+        return existing, questions, settings
+
+    # ---- NEW ATTEMPT: shuffle questions uniquely per student ----
+    all_questions_raw = get_sanitized_questions_for_student()
+    if not all_questions_raw:
         raise ValueError("No questions available in the quiz yet. Please contact the administrator.")
 
-    total_marks = sum(q.get("marks", 1) for q in questions)
+    # Shuffle a copy so the original DB order is never modified
+    shuffled_questions = list(all_questions_raw)
+    random.shuffle(shuffled_questions)
+
+    # Save the shuffled order as a list of IDs
+    question_order = [q["_id"] for q in shuffled_questions]
+
+    total_marks = sum(q.get("marks", 1) for q in shuffled_questions)
     session_token = str(uuid.uuid4())
-    
+
     new_attempt = {
         "student_id": str(student.get("_id")),
         "student_name": student["name"],
         "register_number": reg,
         "session_token": session_token,
-        "answers": {},                # { question_id: "A" }
+        "question_order": question_order,       # Persisted shuffled order
+        "answers": {},                           # { question_id: "A" }
         "start_time": get_utc_now_iso(),
         "submission_time": None,
         "last_heartbeat": get_utc_now_iso(),
         "score": 0,
         "total_marks": total_marks,
         "percentage": 0,
-        "status": "active",           # active, completed, auto_submitted, terminated
+        "status": "active",                      # active, completed, auto_submitted, terminated
         "tab_switches_count": 0,
         "fullscreen_exits_count": 0,
         "suspicious_events_count": 0,
         "correct_count": 0,
         "wrong_count": 0,
-        "unanswered_count": len(questions),
-        "total_questions": len(questions),
+        "unanswered_count": len(shuffled_questions),
+        "total_questions": len(shuffled_questions),
         "client_ip": client_ip
     }
 
     res = quiz_attempts_col.insert_one(new_attempt)
     new_attempt["_id"] = str(getattr(res, "inserted_id", new_attempt.get("_id")))
     new_attempt["server_remaining_seconds"] = total_duration_secs
-    return new_attempt, questions, settings
+    return new_attempt, shuffled_questions, settings
 
 def save_student_answer(attempt_id, question_id, selected_option):
     """Autosaves a selected option for a question with status & timer verification."""
@@ -354,9 +393,24 @@ def submit_quiz_attempt(attempt_id, is_auto_submit=False):
 
     student_answers = attempt.get("answers", {})
 
-    # Fetch all questions with correct answers from DB
-    all_questions = list(questions_col.find({}))
-    total_questions = len(all_questions)
+    # Determine which questions this student was assigned (from their saved shuffled order).
+    # If the attempt has a question_order saved, evaluate only those questions in that order.
+    # Questions that were deleted since the attempt started are skipped (no penalty).
+    # This prevents deleted questions from ever affecting a student's score.
+    question_order = attempt.get("question_order")
+
+    # Fetch all current questions into a lookup map so we can resolve by ID
+    all_questions_in_db = list(questions_col.find({}))
+    q_map = {str(q.get("_id")): q for q in all_questions_in_db}
+
+    if question_order:
+        # Evaluate only the student's assigned questions, in their order
+        ordered_questions = [q_map[qid] for qid in question_order if qid in q_map]
+    else:
+        # Legacy attempts without saved order: use all current DB questions
+        ordered_questions = all_questions_in_db
+
+    total_questions = len(ordered_questions)
     total_marks = 0
     score = 0
     correct_count = 0
@@ -365,7 +419,7 @@ def submit_quiz_attempt(attempt_id, is_auto_submit=False):
 
     evaluated_details = []
 
-    for q in all_questions:
+    for q in ordered_questions:
         qid = str(q.get("_id"))
         q_marks = int(q.get("marks", 1))
         total_marks += q_marks
@@ -656,12 +710,42 @@ def get_all_results_admin():
         # Strip heavy detailed_results from list view for performance
         if "detailed_results" in doc:
             doc.pop("detailed_results")
+        # Also strip the question_order list to keep response lean
+        if "question_order" in doc:
+            doc.pop("question_order")
         results.append(doc)
     return results
+
+def get_all_students_admin():
+    """Returns all registered students with their latest quiz attempt status."""
+    students = list(students_col.find({}, sort=[("created_at", -1)]))
+    # Build a lookup from register_number -> attempt
+    all_attempts = list(quiz_attempts_col.find({}))
+    attempt_map = {}
+    for a in all_attempts:
+        reg = a.get("register_number", "")
+        # Keep the most recent (last inserted) attempt per student
+        if reg not in attempt_map:
+            attempt_map[reg] = a
+
+    result = []
+    for s in students:
+        s["_id"] = str(s.get("_id"))
+        reg = s.get("register_number", "")
+        attempt = attempt_map.get(reg)
+        s["quiz_status"] = attempt.get("status", "not_started") if attempt else "not_started"
+        s["attempt_id"] = str(attempt.get("_id", "")) if attempt else None
+        s["score"] = attempt.get("score", 0) if attempt else 0
+        s["percentage"] = attempt.get("percentage", 0) if attempt else 0
+        s["submission_time"] = attempt.get("submission_time") if attempt else None
+        result.append(s)
+    return result
 
 def get_individual_result_detail(attempt_id):
     """Returns single attempt with question-by-question breakdown."""
     doc = quiz_attempts_col.find_one({"_id": str(attempt_id).strip()})
     if doc:
         doc["_id"] = str(doc.get("_id"))
+        # Remove question_order from student-facing detail (not needed)
+        doc.pop("question_order", None)
     return doc

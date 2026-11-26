@@ -4,6 +4,7 @@
 
 let allQuestions = [];
 let allResults = [];
+let allStudents = [];
 let allMonitoringStudents = [];
 let currentSettings = null;
 let liveMonitoringPollingInterval = null;
@@ -118,7 +119,7 @@ function logoutAdmin() {
 // ==========================================
 
 function switchAdminTab(tabName) {
-    const tabs = ['overview', 'monitoring', 'questions', 'settings', 'results'];
+    const tabs = ['overview', 'monitoring', 'questions', 'students', 'settings', 'results'];
     const tabBtns = document.querySelectorAll('.tab-btn');
 
     tabs.forEach((tab, idx) => {
@@ -136,6 +137,7 @@ function switchAdminTab(tabName) {
 
     if (tabName === 'monitoring') loadLiveMonitoringData();
     if (tabName === 'questions') loadAdminQuestions();
+    if (tabName === 'students') loadAdminStudents();
     if (tabName === 'settings') loadAdminSettings();
     if (tabName === 'results') loadAdminResults();
 }
@@ -151,6 +153,7 @@ async function loadAllDashboardData() {
             loadDashboardStats(),
             loadLiveMonitoringData(),
             loadAdminQuestions(),
+            loadAdminStudents(),
             loadAdminSettings(),
             loadAdminResults()
         ]);
@@ -442,6 +445,80 @@ async function loadAdminQuestions() {
     } catch (err) {
         showToast('Error loading questions: ' + err.message, 'error');
     }
+}
+
+
+// ==========================================
+// REGISTERED STUDENTS LIST
+// ==========================================
+
+async function loadAdminStudents() {
+    try {
+        const res = await apiRequest('/api/admin/students');
+        allStudents = res.data || [];
+        const countEl = document.getElementById('tab-students-count');
+        if (countEl) countEl.textContent = allStudents.length;
+        filterStudentsTable();
+    } catch (err) {
+        showToast('Error loading students: ' + err.message, 'error');
+    }
+}
+
+function filterStudentsTable() {
+    const q = (document.getElementById('students-search-input')?.value || '').trim().toLowerCase();
+    const filtered = q
+        ? allStudents.filter(s =>
+            (s.name || '').toLowerCase().includes(q) ||
+            (s.register_number || '').toLowerCase().includes(q))
+        : allStudents;
+    renderStudentsTable(filtered);
+}
+
+function renderStudentsTable(students) {
+    const tbody = document.getElementById('students-table-body');
+    if (!tbody) return;
+
+    if (!students || students.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="8" style="text-align: center; color: var(--text-muted); padding: 3rem;">
+                    No students have registered yet.
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    tbody.innerHTML = students.map((s, idx) => {
+        const statusMap = {
+            active: '<span class="badge badge-success">🟢 Active</span>',
+            completed: '<span class="badge badge-primary">✓ Completed</span>',
+            auto_submitted: '<span class="badge badge-primary">⏱ Auto-submitted</span>',
+            terminated: '<span class="badge badge-danger">🛑 Terminated</span>',
+            not_started: '<span class="badge badge-warning">⏳ Not Started</span>'
+        };
+        const statusBadge = statusMap[s.quiz_status] || `<span class="badge badge-warning">${escapeHtml(s.quiz_status || '-')}</span>`;
+        const registeredAt = s.created_at ? new Date(s.created_at).toLocaleString() : '-';
+        const submittedAt = s.submission_time ? new Date(s.submission_time).toLocaleString() : '-';
+        const pct = parseFloat(s.percentage || 0);
+
+        return `
+            <tr>
+                <td><strong>${idx + 1}</strong></td>
+                <td><strong>${escapeHtml(s.name || 'Unknown')}</strong></td>
+                <td><code style="color: var(--secondary); font-weight: 700;">${escapeHtml(s.register_number || '-')}</code></td>
+                <td>${statusBadge}</td>
+                <td><strong>${s.score ?? '-'}</strong></td>
+                <td>
+                    ${s.quiz_status === 'completed' || s.quiz_status === 'auto_submitted'
+                        ? `<span class="badge ${pct >= 50 ? 'badge-success' : 'badge-danger'}">${pct}%</span>`
+                        : '-'}
+                </td>
+                <td style="font-size: 0.82rem; color: var(--text-secondary);">${registeredAt}</td>
+                <td style="font-size: 0.82rem; color: var(--text-secondary);">${submittedAt}</td>
+            </tr>
+        `;
+    }).join('');
 }
 
 function renderQuestionsTable(questions) {

@@ -192,6 +192,16 @@ def admin_get_results():
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 
+@app.route("/api/admin/students", methods=["GET"])
+@admin_required
+def admin_get_students():
+    """Returns all registered students with their latest quiz attempt status."""
+    try:
+        students = quiz.get_all_students_admin()
+        return jsonify({"status": "success", "data": students})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
 @app.route("/api/admin/results/<attempt_id>", methods=["GET"])
 @admin_required
 def admin_get_result_detail(attempt_id):
